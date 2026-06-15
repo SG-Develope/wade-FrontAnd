@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-river: #1D9E75;
+  --color-river-mid: #5DCAA5;
+  --color-river-light: #E1F5EE;
+  --color-river-deep: #085041;
+  
+  --color-caution: #EF9F27;
+  --color-danger: #E24B4A;
+  
+  --font-pretendard: 'Pretendard', sans-serif;
+  --font-gmarket: 'Gmarket Sans', sans-serif;
+}
