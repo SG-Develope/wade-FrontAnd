@@ -2,14 +2,24 @@
 
 
 @theme {
-  --color-river: #1D9E75;
-  --color-river-mid: #5DCAA5;
+  /* 브랜드 컬러 */
+  --color-river:       #1D9E75;
+  --color-river-mid:   #5DCAA5;
   --color-river-light: #E1F5EE;
-  --color-river-deep: #085041;
-  
+  --color-river-deep:  #085041;
+
+  /* 경보 단계 */
   --color-caution: #EF9F27;
-  --color-danger: #E24B4A;
-  
+  --color-danger:  #E24B4A;
+
+  /* 기본 UI */
+  --color-sand:   #F7F4EF;
+  --color-pebble: #EDE8E0;
+  --color-soil:   #2D3A1F;
+  --color-moss:   #8A9A7A;
+  --color-sky:    #EBF5FB;
+
+  /* 폰트 */
   --font-pretendard: 'Pretendard', sans-serif;
-  --font-gmarket: 'Gmarket Sans', sans-serif;
+  --font-gmarket:    'Gmarket Sans', sans-serif;
 }

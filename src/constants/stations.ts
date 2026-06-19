@@ -99,7 +99,7 @@ export const STATUS_COLORS = {
   critical: { marker: '#7A1F1F', bg: '#FEEEEE', text: '#7A1F1F' },
 };
 
-export function getStationStatus(stationId, level) {
+export function getStationStatus(stationId: string, level: number) {
   const station = Object.values(STATIONS).find((s) => s.id === stationId);
   if (!station) return WATER_LEVEL_STATUS.NORMAL;
   const { thresholds } = station;
@@ -109,7 +109,7 @@ export function getStationStatus(stationId, level) {
   return WATER_LEVEL_STATUS.NORMAL;
 }
 
-export function getPlaceStatus(place, stationLevel) {
+export function getPlaceStatus(place: { thresholds: { caution: number; safe: number } }, stationLevel: number) {
   if (stationLevel > place.thresholds.caution) return WATER_LEVEL_STATUS.WARNING;
   if (stationLevel > place.thresholds.safe) return WATER_LEVEL_STATUS.CAUTION;
   return WATER_LEVEL_STATUS.NORMAL;
