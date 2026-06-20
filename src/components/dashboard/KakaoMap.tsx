@@ -25,7 +25,7 @@ export default function KakaoMap({ stations }: Props) {
       mapInstance.current = new window.kakao.maps.Map(mapRef.current, {
         center,
         level: 9,
-        scrollwheel: false,  // 마우스 휠 줌 비활성화
+        scrollwheel: false,
         disableDoubleClickZoom: false,
       })
       renderMarkers()
@@ -87,4 +87,6 @@ export default function KakaoMap({ stations }: Props) {
           <div className="text-[13px] text-[#4A6A3A] font-semibold">카카오맵 로딩 중...</div>
         </div>
       )}
- 
+    </div>
+  )
+}
