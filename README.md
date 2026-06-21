@@ -1,16 +1,98 @@
-# React + Vite
+# 🌊 WADE — 낙동강 수위 실시간 모니터링
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+낙동강 주변 캠핑·낚시·자전거·산책 이용자를 위한 실시간 수위 모니터링 서비스.
+수위 숫자가 아닌 **"지금 가도 되는지"** 를 알려줍니다.
 
-Currently, two official plugins are available:
+> 개발 기간: 2026.06.15 ~ 2026.07.01 &nbsp;|&nbsp; 1인 개인 프로젝트
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 서비스 소개
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+낙동강홍수통제소는 실시간 수위 데이터를 공개하지만 일반인이 읽기 어렵습니다.  
+WADE는 이 데이터를 **장소 기반 안전 정보**로 번역합니다.
 
-## Expanding the ESLint configuration
+> "양포교 수위 3.7m" → **"양포교 낚시터 — 지금 주의 필요"**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+기존 조기경보 시스템은 기관이 판단 후 문자를 보내야 시민이 인지할 수 있었습니다.  
+WADE는 시민이 **능동적으로** 현재 수위 상황을 확인하고 스스로 판단할 수 있도록 합니다.
+
+---
+
+## 주요 기능
+
+### 실시간 현황
+- 카카오맵에서 관측소 수위 상태를 마커 색상(정상·주의·위험)으로 한눈에 파악
+- AI가 현재 수위·날씨를 종합해 자연어 안전 안내 제공
+- 위험 단계 도달 시 상단 경고 배너 자동 노출
+- CCTV 현장 영상으로 실제 강 상황 직접 확인
+
+### 수위 추이
+- 24시간 수위 변화 그래프
+- 평상수위 대비 상승량을 튜브 그래프로 직관화 ("6.2m" → "+4.4m — 버스 높이만큼")
+- 제방 단면도로 계획홍수위까지 여유 거리 시각화
+- 10분 간격 관측 이력 테이블
+
+### 여가 지도
+- 캠핑장·낚시터·자전거길·산책로 4곳의 안전 상태를 지도 마커로 표시
+- 관측소 수위에 연동해 안전/주의/이용금지 자동 갱신
+
+### 날씨·레이더
+- 기상청 강수 레이더로 낙동강 상류 강수 현황 실시간 확인 (상류 비 → 하류 수위 상승)
+- 위성 영상·태풍 레이더·단기예보 제공
+
+---
+
+## 기술 스택
+
+| 영역 | 기술 |
+|---|---|
+| 프론트엔드 | React 19, TypeScript, Vite, Tailwind CSS v4 |
+| 서버 상태 | TanStack Query v5 (10분 자동 폴링) |
+| 클라이언트 상태 | Zustand v5 |
+| 라우팅 | React Router v7 |
+| 지도 | 카카오맵 JavaScript API |
+| 차트 | Recharts v3 |
+| 백엔드 | Spring Boot 4.0.7, Java 21, Gradle, MyBatis, Caffeine Cache |
+| DB | PostgreSQL (Neon) |
+| 배포 | Vercel (프론트엔드) / Railway (백엔드) |
+| 외부 API | 낙동강홍수통제소, 기상청, Claude AI (Anthropic) |
+
+---
+
+## 대상 지역
+
+구미~칠곡 구간 2개 관측소 기반, 4개 여가 장소 커버
+
+| 장소 | 종류 | 연결 관측소 |
+|---|---|---|
+| 구미 낙동강 오토캠핑장 | 캠핑 | 양포교 |
+| 양포교 낚시터 | 낚시 | 양포교 |
+| 낙동강 자전거길 4코스 | 자전거·산책 | 양포교 |
+| 칠곡 낙동강 둔치공원 | 산책·피크닉 | 호국의다리 |
+
+---
+
+## 수위 경보 단계
+
+| 단계 | 표시 | 의미 |
+|---|---|---|
+| 정상 | 초록 | 평상 수위, 이용 가능 |
+| 주의 | 노랑 | 수위 상승 중, 주의 요망 |
+| 위험 | 빨강 | 이용 금지 |
+| 심각 | 진빨강 | 즉시 대피 |
+
+---
+
+## 문서
+
+| 문서 | 설명 |
+|---|---|
+| [PRD](docs/PRD.md) | 서비스 기획 및 기능 요구사항 |
+| [ARCHITECTURE](docs/ARCHITECTURE.md) | 시스템 구조 |
+| [API](docs/API.md) | REST API 엔드포인트 명세 |
+| [DESIGN](docs/DESIGN.md) | 디자인 시스템 |
+| [ERD](docs/ERD.md) | 엔티티 관계 다이어그램 |
+| [DDL](docs/DDL.md) | PostgreSQL DDL |
+| [ENV](docs/ENV.md) | 환경변수 목록 |
+| [CONVENTION](docs/CONVENTION.md) | 코딩 컨벤션 |
