@@ -31,7 +31,7 @@ function getValColor(status: string): string {
 
 export default function Dashboard() {
   const { data: waterData, isLoading: waterLoading } = useWaterLevels()
-  const { data: weather, isLoading: weatherLoading } = useWeather()
+  const { data: weather, isLoading: weatherLoading } = useWeather(86, 96)
   const { data: cctvData } = useCctvList()
   const stations = waterData ?? []
 
@@ -52,6 +52,7 @@ export default function Dashboard() {
 
   const [selectedCctv, setSelectedCctv] = useState<CctvInfo | null>(null)
   const [panelOpen, setPanelOpen]       = useState(true)
+  const [bottomOpen, setBottomOpen]     = useState(true)
 
   const cctvList: CctvInfo[] = (cctvData ?? []).map(base => {
     const station = stations.find(s => s.id === base.stationId)
@@ -73,30 +74,47 @@ export default function Dashboard() {
   return (
     <div className="flex h-full overflow-hidden">
 
-      {/* 위험 배너 */}
       {dangerStation && (
         <div className="fixed top-[58px] left-0 right-0 z-30">
           <DangerBanner station={dangerStation} />
         </div>
       )}
 
-      {/* ===== 왼쪽 패널 ===== */}
       <div
         className="flex-1 flex flex-col overflow-hidden relative"
         style={{ marginTop: dangerStation ? 36 : 0 }}
       >
-        {/* 지도 */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden relative">
           <KakaoMap stations={stations} />
+          <button
+            onClick={() => setBottomOpen(o => !o)}
+            className="absolute z-20 flex items-center justify-center cursor-pointer transition-colors hover:bg-sand"
+            style={{
+              bottom: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 44,
+              height: 20,
+              background: '#fff',
+              border: '0.5px solid #EDE8E0',
+              borderBottom: 'none',
+              borderRadius: '8px 8px 0 0',
+              boxShadow: '0 -2px 8px rgba(0,0,0,0.07)',
+            }}
+          >
+            <i
+              className={`ti ti-chevron-${bottomOpen ? 'down' : 'up'} text-moss`}
+              style={{ fontSize: 11 }}
+            />
+          </button>
         </div>
 
-        {/* 여가 활동 스트립 */}
-        <ActivityStrip stations={stations} />
+        {bottomOpen && (
+          <>
+            <CctvSection cctvList={cctvList} onCctvClick={setSelectedCctv} />
+          </>
+        )}
 
-        {/* CCTV 섹션 */}
-        <CctvSection cctvList={cctvList} onCctvClick={setSelectedCctv} />
-
-        {/* 패널 토글 버튼 */}
         <button
           onClick={() => setPanelOpen(p => !p)}
           className="absolute right-0 z-20 flex items-center justify-center cursor-pointer transition-colors hover:bg-sand"
@@ -119,7 +137,6 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* ===== 오른쪽 패널 ===== */}
       <RightPanel
         open={panelOpen}
         onToggle={() => setPanelOpen(p => !p)}

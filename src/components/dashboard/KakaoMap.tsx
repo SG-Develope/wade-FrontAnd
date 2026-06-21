@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { STATIONS, STATUS_COLORS } from '@/constants/stations'
+import { STATIONS } from '@/constants/stations'
 import type { Station } from '@/types'
 import useAppStore from '@/stores/appStore'
 
@@ -11,10 +11,26 @@ interface Props {
   stations: Station[]
 }
 
+const STATUS_MARKER: Record<string, string> = {
+  normal:   '/markers/m_icon002_4.png',
+  caution:  '/markers/m_icon002_6.png',
+  warning:  '/markers/m_icon002_1.png',
+  critical: '/markers/m_icon002_2.png',
+}
+const DEFAULT_MARKER = '/markers/m_icon002_3.png'
+
+const STATUS_LABEL: Record<string, string> = {
+  normal: '정상', caution: '주의', warning: '경계', critical: '심각',
+}
+
+const STATUS_COLOR: Record<string, string> = {
+  normal: '#1D9E75', caution: '#EF9F27', warning: '#E24B4A', critical: '#7A1F1F',
+}
+
 export default function KakaoMap({ stations }: Props) {
-  const mapRef = useRef<HTMLDivElement>(null)
+  const mapRef      = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<any>(null)
-  const markersRef = useRef<any[]>([])
+  const overlaysRef = useRef<any[]>([])
   const { setSelectedStation } = useAppStore()
 
   useEffect(() => {
@@ -23,10 +39,7 @@ export default function KakaoMap({ stations }: Props) {
       if (!window.kakao?.maps) return
       const center = new window.kakao.maps.LatLng(36.065, 128.38)
       mapInstance.current = new window.kakao.maps.Map(mapRef.current, {
-        center,
-        level: 9,
-        scrollwheel: false,
-        disableDoubleClickZoom: false,
+        center, level: 9, scrollwheel: true, disableDoubleClickZoom: false,
       })
       renderMarkers()
     }
@@ -42,8 +55,8 @@ export default function KakaoMap({ stations }: Props) {
 
   const renderMarkers = () => {
     if (!mapInstance.current || !window.kakao?.maps) return
-    markersRef.current.forEach(m => m.setMap(null))
-    markersRef.current = []
+    overlaysRef.current.forEach(o => o.setMap(null))
+    overlaysRef.current = []
 
     const stationsToRender = stations.length > 0
       ? stations
@@ -57,37 +70,48 @@ export default function KakaoMap({ stations }: Props) {
         }))
 
     stationsToRender.forEach(station => {
-      const colors = STATUS_COLORS[station.status as keyof typeof STATUS_COLORS] ?? STATUS_COLORS.normal
+      const markerSrc = STATUS_MARKER[station.status] ?? DEFAULT_MARKER
+      const color     = STATUS_COLOR[station.status] ?? STATUS_COLOR.normal
+      const label     = STATUS_LABEL[station.status] ?? '정상'
       const stationMeta = STATIONS[station.id.toUpperCase() as keyof typeof STATIONS]
-      const pulse = station.status !== 'normal'
-        ? `<div style="position:absolute;inset:0;border-radius:50%;border:2px solid ${colors.marker};animation:ping 1.4s cubic-bezier(0,0,0.2,1) infinite;opacity:0.5;"></div>
-           <div style="position:absolute;inset:-6px;border-radius:50%;border:1.5px solid ${colors.marker};animation:ping 1.4s cubic-bezier(0,0,0.2,1) 0.4s infinite;opacity:0.3;"></div>`
-        : ''
-      const statusLabel: Record<string, string> = { normal: '정상', caution: '주의', warning: '위험', critical: '심각' }
+      const lat = stationMeta?.lat ?? 36.065
+      const lng = stationMeta?.lng ?? 128.38
+
       const content = `
-        <style>@keyframes ping{0%{transform:scale(1);opacity:0.6}100%{transform:scale(2.2);opacity:0}}</style>
-        <div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
-          <div style="background:#fff;border-radius:14px;padding:7px 13px;border:2px solid ${colors.marker};box-shadow:0 3px 12px ${colors.marker}40;text-align:center;position:relative;">
+        <div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;user-select:none;">
+          <div style="
+            background:#fff;
+            border-radius:12px;
+            padding:6px 12px;
+            border:1.5px solid ${color};
+            box-shadow:0 2px 10px rgba(0,0,0,0.15);
+            text-align:center;
+            margin-bottom:4px;
+            white-space:nowrap;
+          ">
             <div style="font-size:12px;font-weight:800;color:#2D3A1F;letter-spacing:-0.3px;">${station.name}</div>
-            <div style="font-size:13px;font-weight:800;color:${colors.marker};margin-top:1px;">${station.currentLevel?.toFixed(1) ?? '-'}m</div>
-            <div style="font-size:9px;color:${colors.text};background:${colors.bg};border-radius:6px;padding:1px 6px;margin-top:3px;font-weight:700;">${statusLabel[station.status] ?? '정상'}</div>
+            <div style="font-size:13px;font-weight:800;color:${color};margin-top:1px;">${station.currentLevel?.toFixed(1) ?? '-'}m</div>
+            <div style="font-size:9px;color:${color};font-weight:700;margin-top:2px;">${label}</div>
           </div>
-          <div style="position:relative;width:16px;height:20px;margin-top:-2px;">
-            ${pulse}
-            <div style="width:16px;height:16px;border-radius:50%;background:${colors.marker};box-shadow:0 2px 6px ${colors.marker}60;position:relative;z-index:1;"></div>
-            <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid ${colors.marker};margin:0 auto;margin-top:-2px;"></div>
-          </div>
+          <img src="${markerSrc}" style="width:36px;height:44px;display:block;" />
         </div>
       `
+
       const overlay = new window.kakao.maps.CustomOverlay({
-        position: new window.kakao.maps.LatLng(stationMeta?.lat ?? 36.065, stationMeta?.lng ?? 128.38),
-        content, map: mapInstance.current, yAnchor: 1.1,
+        position: new window.kakao.maps.LatLng(lat, lng),
+        content,
+        map: mapInstance.current,
+        yAnchor: 1.0,
       })
+
       setTimeout(() => {
         const el = overlay.getContent() as HTMLElement
-        if (typeof el !== 'string') el.addEventListener('click', () => setSelectedStation(station))
+        if (typeof el !== 'string') {
+          el.addEventListener('click', () => setSelectedStation(station))
+        }
       }, 100)
-      markersRef.current.push(overlay)
+
+      overlaysRef.current.push(overlay)
     })
   }
 

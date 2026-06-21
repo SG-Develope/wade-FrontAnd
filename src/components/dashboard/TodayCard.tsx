@@ -1,30 +1,17 @@
 import type { Weather } from '@/types'
 import type { AiGuide } from '@/types'
+import Icon from '@/components/common/Icon'
+import { getSkyEmoji, ACTIVITY_PILLS } from '@/constants/icons'
 
 interface Props {
   weather?: Weather
   guide?: AiGuide
 }
 
-function getSkyEmoji(sky?: string): string {
-  if (!sky) return '🌤️'
-  if (sky.includes('맑음')) return '☀️'
-  if (sky.includes('구름많음')) return '⛅'
-  return '🌥️'
-}
-
-const ACTIVITY_PILLS = [
-  { key: 'walking', icon: 'ti-walk',     label: '산책' },
-  { key: 'fishing', icon: 'ti-fish',     label: '낚시' },
-  { key: 'cycling', icon: 'ti-bike',     label: '자전거' },
-  { key: 'camping', icon: 'ti-campfire', label: '캠핑' },
-] as const
-
 export default function TodayCard({ weather, guide }: Props) {
   const emoji = getSkyEmoji(weather?.skyCondition)
   const acts  = guide?.activities
 
-  // activities 없으면 기본 true (로딩 중)
   const pills = ACTIVITY_PILLS.map(p => ({
     ...p,
     ok: acts ? (acts[p.key] ?? true) : true,
@@ -51,7 +38,7 @@ export default function TodayCard({ weather, guide }: Props) {
               border:     p.ok ? '0.5px solid rgba(255,255,255,0.3)' : '0.5px solid rgba(226,75,74,0.5)',
               color: '#fff',
             }}>
-            <i className={`ti ${p.icon}`} style={{ fontSize: 13 }} />
+            <Icon name={p.key} size={13} />
             {p.label} {p.ok ? 'OK' : 'X'}
           </span>
         ))}
