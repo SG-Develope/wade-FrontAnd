@@ -4,6 +4,7 @@ import WaterLevelChart from '@/components/trends/WaterLevelChart'
 import TubeVisualization from '@/components/trends/TubeVisualization'
 import LeveeSection from '@/components/trends/LeveeSection'
 import StatusBadge from '@/components/common/StatusBadge'
+import Skeleton, { TableRowSkeleton } from '@/components/common/Skeleton'
 
 const STATIONS_META = [
   { id: 'yangpo', label: '양포교',     color: '#1D9E75' },
@@ -23,7 +24,7 @@ export default function Trends() {
   const [hours, setHours] = useState(24)
 
   const { data: waterData, isLoading: waterLoading } = useWaterLevels()
-  const { data: historyData, isLoading: historyLoading } = useWaterLevelHistory(selectedStation, hours)
+  const { data: historyData, isLoading: historyLoading, isError: historyError, error: historyErrorObj } = useWaterLevelHistory(selectedStation, hours)
 
   const stations = waterData ?? []
   const selectedStationData = stations.find(s => s.id === selectedStation)
@@ -86,6 +87,14 @@ export default function Trends() {
               <div className="h-[200px] bg-sand rounded-lg flex items-center justify-center animate-pulse">
                 <span className="text-[12px] text-moss">데이터 로딩 중...</span>
               </div>
+            ) : historyError ? (
+              <div className="h-[200px] flex flex-col items-center justify-center gap-2">
+                <i className="ti ti-alert-circle text-[#E24B4A]" style={{ fontSize: 28 }} />
+                <span className="text-[12px] text-[#E24B4A] font-medium">데이터 로드 실패</span>
+                <span className="text-[10px] text-moss opacity-70 text-center px-4">
+                  {(historyErrorObj as any)?.message ?? '알 수 없는 오류'}
+                </span>
+              </div>
             ) : history.length > 0 ? (
               <WaterLevelChart
                 data={history}
@@ -95,8 +104,12 @@ export default function Trends() {
                 warningLevel={selectedStationData?.warningLevel ?? 5.0}
               />
             ) : (
-              <div className="h-[200px] flex items-center justify-center">
-                <span className="text-[12px] text-moss">수위 이력 데이터가 없습니다.</span>
+              <div className="h-[200px] flex flex-col items-center justify-center gap-2">
+                <i className="ti ti-chart-bar-off text-pebble" style={{ fontSize: 28 }} />
+                <span className="text-[12px] text-moss font-medium">수위 이력 데이터 없음</span>
+                <span className="text-[10px] text-moss opacity-70 text-center px-4">
+                  HRFCO 센서 데이터는 실시간 수집 후 제공됩니다.<br />잠시 후 다시 확인해 주세요.
+                </span>
               </div>
             )}
           </div>
@@ -118,15 +131,25 @@ export default function Trends() {
           <table className="w-full border-collapse text-[12px]">
             <thead>
               <tr>
-                {['시각', '수위', '상태', '평상 대비'].map(h => (
+                {['시각', '수위', '상태', '평상 대비 (현재수위 - 관심수위)'].map(h => (
                   <th key={h} className="text-[10px] text-moss font-bold px-2 py-1.5 border-b border-pebble text-left tracking-[0.03em]">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {history.slice(-12).reverse().map((point, i) => {
+              {historyLoading && <TableRowSkeleton cols={4} rows={8} />}
+              {!historyLoading && history.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="text-center py-8 text-[11px] text-moss opacity-60">
+                    관측 이력이 없습니다
+                  </td>
+                </tr>
+              )}
+              {!historyLoading && history.slice(-12).reverse().map((point, i) => {
                 const normal = selectedStationData?.normalLevel ?? 1.6
                 const diff = point.level - normal
+                const absDiff = Math.abs(diff).toFixed(2)
+                const isAbove = diff > 0
                 const diffColor = diff > 0.5 ? '#E24B4A' : diff > 0 ? '#EF9F27' : '#1D9E75'
                 return (
                   <tr key={i}>
@@ -166,7 +189,12 @@ export default function Trends() {
         {/* 현재 수위 바 */}
         <div className="px-4 py-3.5 border-b border-[#F5F0EA]">
           <div className="text-[10px] text-moss font-bold tracking-[0.05em] mb-2.5">현재 수위</div>
-          {stations.map(s => {
+          {waterLoading ? (
+            <div className="flex flex-col gap-3">
+              <Skeleton height={40} />
+              <Skeleton height={40} />
+            </div>
+          ) : stations.map(s => {
             const design = s.designFloodLevel ?? 8
             const pct = Math.min((s.currentLevel / design) * 100, 100)
             const c = STATUS_COLOR[s.status] ?? STATUS_COLOR.normal
@@ -185,7 +213,8 @@ export default function Trends() {
                 </div>
               </div>
             )
-          })}
+          }
+          )}
         </div>
 
         {/* 경보 기준 */}

@@ -1,4 +1,5 @@
-import { PLACES, getPlaceStatus } from '@/constants/stations'
+import { STATUS_COLORS } from '@/constants/stations'
+import { usePlaces } from '@/queries/usePlaceQuery'
 import type { Station } from '@/types'
 
 interface Props {
@@ -13,18 +14,29 @@ const STATUS_PILL = {
 }
 
 export default function ActivityStrip({ stations }: Props) {
+  const { data: placesData } = usePlaces()
+  const places = placesData ?? []
+
   const getStationLevel = (stationId: string) => {
     const s = stations.find(s => s.id === stationId)
-    return s?.currentLevel ?? (stationId === 'yangpo' ? 1.8 : 2.3)
+    return s?.currentLevel ?? 0
   }
 
+  const getStatus = (safeWl: number, cautionWl: number, level: number) => {
+    if (level > cautionWl) return 'warning'
+    if (level > safeWl)    return 'caution'
+    return 'normal'
+  }
+
+  if (places.length === 0) return null
+
   return (
-    <div className="bg-white border-t border-pebble px-4 py-2.5 flex gap-2 items-center shrink-0 overflow-x-auto">
+    <div className="bg-white border-t border-pebble px-4 py-2.5 flex gap-2 items-center shrink-0 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
       <span className="text-[10px] text-moss font-semibold tracking-[0.04em] whitespace-nowrap mr-1">여가 현황</span>
-      {PLACES.map(place => {
-        const level = getStationLevel(place.stationId)
-        const status = getPlaceStatus(place, level)
-        const pill = STATUS_PILL[status as keyof typeof STATUS_PILL] ?? STATUS_PILL.normal
+      {places.map(place => {
+        const level  = getStationLevel(place.stationId)
+        const status = getStatus(place.safeWl, place.cautionWl, level)
+        const pill   = STATUS_PILL[status as keyof typeof STATUS_PILL] ?? STATUS_PILL.normal
         return (
           <div
             key={place.id}

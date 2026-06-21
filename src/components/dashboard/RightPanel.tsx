@@ -31,7 +31,7 @@ export default function RightPanel({
   return (
     <aside
       style={{
-        width: open ? 280 : 0,
+        width: open ? '25%' : 0,
         flexShrink: 0,
         overflow: 'hidden',
         transition: 'width 0.22s ease',
@@ -42,7 +42,7 @@ export default function RightPanel({
       }}
     >
       <div className="flex flex-col overflow-y-auto" style={{ width: 280, flex: 1 }}>
-        <TodayCard stations={stations} weather={weather} />
+        <TodayCard weather={weather} guide={guide} />
 
         <div className="mx-[14px] mt-[14px]">
           <AiBriefingCard

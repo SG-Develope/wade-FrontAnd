@@ -9,6 +9,10 @@ export const queryKeys = {
     all: ['weather'] as const,
     current: () => [...queryKeys.weather.all, 'current'] as const,
   },
+  places: {
+    all: ['places'] as const,
+    list: () => [...queryKeys.places.all, 'list'] as const,
+  },
   cctv: {
     all: ['cctv'] as const,
     list: () => [...queryKeys.cctv.all, 'list'] as const,

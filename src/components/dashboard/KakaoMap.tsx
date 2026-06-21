@@ -59,11 +59,24 @@ export default function KakaoMap({ stations }: Props) {
     stationsToRender.forEach(station => {
       const colors = STATUS_COLORS[station.status as keyof typeof STATUS_COLORS] ?? STATUS_COLORS.normal
       const stationMeta = STATIONS[station.id.toUpperCase() as keyof typeof STATIONS]
+      const pulse = station.status !== 'normal'
+        ? `<div style="position:absolute;inset:0;border-radius:50%;border:2px solid ${colors.marker};animation:ping 1.4s cubic-bezier(0,0,0.2,1) infinite;opacity:0.5;"></div>
+           <div style="position:absolute;inset:-6px;border-radius:50%;border:1.5px solid ${colors.marker};animation:ping 1.4s cubic-bezier(0,0,0.2,1) 0.4s infinite;opacity:0.3;"></div>`
+        : ''
+      const statusLabel: Record<string, string> = { normal: '정상', caution: '주의', warning: '위험', critical: '심각' }
       const content = `
-        <div style="background:#fff;border-radius:12px;padding:8px 12px;border:1.5px solid ${colors.marker};box-shadow:0 2px 8px rgba(0,0,0,0.12);cursor:pointer;min-width:90px;text-align:center;">
-          <div style="width:8px;height:8px;border-radius:50%;background:${colors.marker};margin:0 auto 4px;"></div>
-          <div style="font-size:12px;font-weight:700;color:#2D3A1F;">${station.name}</div>
-          <div style="font-size:11px;color:${colors.marker};font-weight:600;">${station.currentLevel?.toFixed(1) ?? '-'}m</div>
+        <style>@keyframes ping{0%{transform:scale(1);opacity:0.6}100%{transform:scale(2.2);opacity:0}}</style>
+        <div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
+          <div style="background:#fff;border-radius:14px;padding:7px 13px;border:2px solid ${colors.marker};box-shadow:0 3px 12px ${colors.marker}40;text-align:center;position:relative;">
+            <div style="font-size:12px;font-weight:800;color:#2D3A1F;letter-spacing:-0.3px;">${station.name}</div>
+            <div style="font-size:13px;font-weight:800;color:${colors.marker};margin-top:1px;">${station.currentLevel?.toFixed(1) ?? '-'}m</div>
+            <div style="font-size:9px;color:${colors.text};background:${colors.bg};border-radius:6px;padding:1px 6px;margin-top:3px;font-weight:700;">${statusLabel[station.status] ?? '정상'}</div>
+          </div>
+          <div style="position:relative;width:16px;height:20px;margin-top:-2px;">
+            ${pulse}
+            <div style="width:16px;height:16px;border-radius:50%;background:${colors.marker};box-shadow:0 2px 6px ${colors.marker}60;position:relative;z-index:1;"></div>
+            <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid ${colors.marker};margin:0 auto;margin-top:-2px;"></div>
+          </div>
         </div>
       `
       const overlay = new window.kakao.maps.CustomOverlay({
