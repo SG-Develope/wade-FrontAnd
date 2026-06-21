@@ -8,6 +8,9 @@ export const queryKeys = {
   weather: {
     all: ['weather'] as const,
     current: () => [...queryKeys.weather.all, 'current'] as const,
+    shortForecast: () => [...queryKeys.weather.all, 'shortForecast'] as const,
+    ultraShortForecast: () => [...queryKeys.weather.all, 'ultraShortForecast'] as const,
+    alerts: () => [...queryKeys.weather.all, 'alerts'] as const,
   },
   places: {
     all: ['places'] as const,
