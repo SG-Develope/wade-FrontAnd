@@ -66,9 +66,9 @@ export default function Leisure() {
   // useWaterLevels() returns Station[] directly
   const stations = waterData ?? [];
 
-  const getLevel = (stationId: string) => {
+  const getLevel = (stationId: string): number | null => {
     const s = stations.find((s) => s.id === stationId);
-    return s?.currentLevel ?? (stationId === "yangpo" ? 1.8 : 2.3);
+    return s?.currentLevel ?? null
   };
 
   const filtered = PLACES.filter((p) => filter === "all" || p.type === filter);
@@ -106,7 +106,7 @@ export default function Leisure() {
 
     PLACES.forEach((place) => {
       const level = getLevel(place.stationId);
-      const status = getPlaceStatus(place, level);
+      const status = level != null ? getPlaceStatus(place, level) : "normal";
       const colors =
         STATUS_COLORS[status as WaterStatus] ?? STATUS_COLORS.normal;
       const statusLabel =
@@ -203,8 +203,8 @@ export default function Leisure() {
           <div className="flex flex-col gap-2">
             {filtered.map((place) => {
               const level = getLevel(place.stationId);
-              const status = getPlaceStatus(place, level) as WaterStatus;
-              const colors = STATUS_COLORS[status];
+              const status = (level != null ? getPlaceStatus(place, level) : "normal") as WaterStatus;
+              const colors = STATUS_COLORS[status as WaterStatus];
               const st = STATUS_TEXT[status];
               const isSelected = selected === place.id;
 
@@ -234,7 +234,7 @@ export default function Leisure() {
                     <div className="text-[10px] text-moss mt-0.5">
                       연결 관측소:{" "}
                       {place.stationId === "yangpo" ? "양포교" : "호국의다리"} ·
-                      수위 {level.toFixed(1)}m
+                      수위 {level != null ? level.toFixed(1) + "m" : "-"}
                     </div>
                     <div className="flex gap-1 mt-1.5 flex-wrap">
                       {place.amenities.slice(0, 3).map((a) => (
@@ -278,10 +278,7 @@ export default function Leisure() {
 
             {(() => {
               const level = getLevel(selectedPlace.stationId);
-              const status = getPlaceStatus(
-                selectedPlace,
-                level,
-              ) as WaterStatus;
+              const status = (level != null ? getPlaceStatus(selectedPlace, level) : "normal") as WaterStatus;
               const colors = STATUS_COLORS[status];
               const st = STATUS_TEXT[status];
               return (
@@ -295,7 +292,7 @@ export default function Leisure() {
                       {selectedPlace.stationId === "yangpo"
                         ? "양포교"
                         : "호국의다리"}{" "}
-                      수위 {level.toFixed(1)}m 기준
+                      수위 {level != null ? level.toFixed(1) + "m" : "-"} 기준
                     </div>
                   </div>
 
@@ -370,7 +367,7 @@ export default function Leisure() {
               </div>
               {PLACES.map((place) => {
                 const level = getLevel(place.stationId);
-                const status = getPlaceStatus(place, level) as WaterStatus;
+                const status = level != null ? getPlaceStatus(place, level) : "normal" as WaterStatus;
                 const st = STATUS_TEXT[status];
                 return (
                   <div
@@ -384,7 +381,7 @@ export default function Leisure() {
                         {place.name}
                       </div>
                       <div className="text-[10px] text-moss">
-                        {level.toFixed(1)}m
+                        {level != null ? level.toFixed(1) + "m" : "-"}
                       </div>
                     </div>
                     <span

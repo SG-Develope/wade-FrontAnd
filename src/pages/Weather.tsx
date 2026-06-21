@@ -22,18 +22,6 @@ const getRadarUrl = (type: string) => {
   }
 }
 
-const FORECAST_MOCK = Array.from({ length: 7 }, (_, i) => {
-  const d = new Date()
-  d.setDate(d.getDate() + i)
-  return {
-    date: d.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric', weekday: 'short' }),
-    icon: ['☀️', '⛅', '🌧️', '⛅', '☀️', '🌦️', '☀️'][i],
-    high: [30, 28, 25, 27, 32, 26, 31][i],
-    low: [22, 21, 19, 20, 23, 18, 22][i],
-    rain: [10, 30, 70, 40, 5, 60, 10][i],
-  }
-})
-
 export default function Weather() {
   const [radarType, setRadarType] = useState('rain')
   const [imgError, setImgError] = useState(false)
@@ -110,25 +98,23 @@ export default function Weather() {
           </div>
         </div>
 
-        {/* 7일 예보 */}
+        {/* 7일 예보 — 준비 중 */}
         <div className="bg-white border border-pebble rounded-[14px] px-4 py-3.5">
           <div className="flex items-center justify-between text-[10px] text-moss font-bold tracking-[0.04em] mb-3">
             7일 예보
             <span className="text-[9px] bg-sky text-[#4A90C4] px-1.5 py-0.5 rounded-full font-semibold">기상청</span>
           </div>
-          <div className="flex items-stretch">
-            {FORECAST_MOCK.map((d, i) => (
-              <div
-                key={i}
-                className={`flex-1 text-center px-1 py-2 ${i < FORECAST_MOCK.length - 1 ? 'border-r border-pebble' : ''}`}
-              >
-                <div className="text-[10px] text-moss mb-1">{d.date}</div>
-                <div className="text-[18px] mb-1">{d.icon}</div>
-                <div className="text-[12px] font-semibold text-soil">{d.high}°</div>
-                <div className="text-[10px] text-moss">{d.low}°</div>
-                <div className="text-[10px] text-[#4A90C4] mt-0.5">{d.rain}%</div>
-              </div>
-            ))}
+          <div className="flex flex-col items-center justify-center gap-2 py-8 text-moss">
+            <i className="ti ti-calendar-off text-[28px] opacity-30" />
+            <div className="text-[12px] opacity-50">7일 예보 API 연동 준비 중</div>
+            <a
+              href="https://www.weather.go.kr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] text-river underline"
+            >
+              기상청에서 확인하기
+            </a>
           </div>
         </div>
       </div>
