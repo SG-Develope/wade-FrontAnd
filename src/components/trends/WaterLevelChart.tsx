@@ -7,14 +7,17 @@ import type { WaterLevelHistory } from '@/types'
 interface Props {
   data: WaterLevelHistory[]
   stationId: string
+  status?: string
   normalLevel: number
   cautionLevel: number
   warningLevel: number
 }
 
-const COLORS = {
-  yangpo: '#1D9E75',
-  hoguk: '#4A90C4',
+const STATUS_COLORS = {
+  normal:   '#1D9E75',
+  caution:  '#EF9F27',
+  warning:  '#E24B4A',
+  critical: '#7A1F1F',
 }
 
 function formatLabel(isoStr: string): string {
@@ -26,8 +29,8 @@ function formatLabel(isoStr: string): string {
   return `${mm}/${dd} ${hh}:${min}`
 }
 
-export default function WaterLevelChart({ data, stationId, normalLevel, cautionLevel, warningLevel }: Props) {
-  const color = COLORS[stationId as keyof typeof COLORS] ?? '#1D9E75'
+export default function WaterLevelChart({ data, stationId, status = 'normal', normalLevel, cautionLevel, warningLevel }: Props) {
+  const color = STATUS_COLORS[status as keyof typeof STATUS_COLORS] ?? STATUS_COLORS.normal
 
   const chartData = data.map(d => ({
     time: formatLabel(d.measuredAt),
@@ -83,7 +86,6 @@ export default function WaterLevelChart({ data, stationId, normalLevel, cautionL
             strokeWidth={2}
             fill={`url(#grad-${stationId})`}
             dot={<CustomDot />}
-            activeDot={{ r: 4, fill: color }}
           />
         </AreaChart>
       </ResponsiveContainer>

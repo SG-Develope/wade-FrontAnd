@@ -1,78 +1,84 @@
-import type { Station } from '@/types'
-import { STATUS_COLORS } from '@/constants/stations'
-
 interface Props {
-  station: Station
+  level: number
+  normalLevel: number
+  cautionLevel: number
+  warningLevel: number
+  criticalLevel: number
+  label?: string
 }
 
-export default function TubeVisualization({ station }: Props) {
-  const normalLevel  = station.normalLevel ?? 1.6
-  const designFlood  = station.designFloodLevel ?? 6.5
-  const current      = station.currentLevel ?? normalLevel
-  const totalHeight  = 160
+function getFill(level: number, normalLevel: number, cautionLevel: number, warningLevel: number) {
+  if (level >= warningLevel) return '#E24B4A'
+  if (level >= cautionLevel) return '#EF9F27'
+  if (level >= normalLevel)  return '#4A90C4'
+  return '#5DCAA5'
+}
 
-  const normalPct  = (normalLevel / designFlood) * 100
-  const currentPct = Math.min((current / designFlood) * 100, 100)
-  const risePct    = Math.max(currentPct - normalPct, 0)
-  const rise       = Math.max(current - normalLevel, 0)
+export default function TubeVisualization({
+  level, normalLevel, cautionLevel, warningLevel, criticalLevel, label
+}: Props) {
+  if (level == null || cautionLevel == null) return null
 
-  const colors = STATUS_COLORS[station.status] ?? STATUS_COLORS.normal
+  const maxDisplay = cautionLevel * 1.05
+  const fillPct = Math.min((level / maxDisplay) * 100, 100)
+  const fill = getFill(level, normalLevel, cautionLevel, warningLevel)
+
+  const TUBE_H = 160
+  const TUBE_W = 44
+
+  // 현재 수위 점선 위치 (튜브 상단 기준 top)
+  const currentTop = TUBE_H - (fillPct / 100) * TUBE_H
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="text-[12px] font-bold text-soil">{station.name}</div>
+    <div className="flex flex-col items-center gap-1.5" style={{ minWidth: 80 }}>
+      {label && (
+        <span className="text-[11px] text-[#1a1a1a] font-bold text-center leading-tight">{label}</span>
+      )}
 
-      {/* 튜브 그래픽 */}
-      <div
-        className="rounded-full overflow-hidden relative bg-sand"
-        style={{ width: 56, height: totalHeight, border: '2px solid #EDE8E0' }}
-      >
-        {/* 평상수위 채움 */}
-        <div
-          className="absolute bottom-0 left-0 right-0 bg-[#B8E8D0]"
-          style={{ height: `${normalPct}%` }}
-        />
-        {/* 상승분 채움 */}
-        <div
-          className="absolute left-0 right-0 transition-all duration-700"
-          style={{
-            bottom: `${normalPct}%`,
-            height: `${risePct}%`,
-            background: colors.marker,
-          }}
-        />
-        {/* 평상수위 점선 */}
-        <div
-          className="absolute left-0 right-0 border-t-2 border-dashed border-[#5DCAA5]"
-          style={{ bottom: `${normalPct}%` }}
-        />
-        {/* 현재 수위 텍스트 */}
-        <div
-          className="absolute left-0 right-0 flex items-center justify-center"
-          style={{ bottom: `${currentPct}%` }}
-        >
-          <span
-            className="text-[9px] font-bold text-white px-1 rounded"
-            style={{ background: colors.marker, whiteSpace: 'nowrap' }}
-          >
-            {current.toFixed(1)}m
+      {/* 튜브 + 범례 */}
+      <div className="relative" style={{ width: TUBE_W + 36, height: TUBE_H }}>
+
+        {/* 최대 높이 (상단) */}
+        <div className="absolute flex items-center gap-0.5" style={{ top: 0, left: TUBE_W }}>
+          <div className="w-2 border-t border-dashed border-[#999]" />
+          <span className="text-[8px] font-semibold text-[#555] whitespace-nowrap">{maxDisplay.toFixed(1)}m</span>
+        </div>
+
+        {/* 현재 수위 점선 */}
+        <div className="absolute flex items-center gap-0.5" style={{ top: currentTop, left: TUBE_W }}>
+          <div className="w-2 border-t-2 border-dashed" style={{ borderColor: fill }} />
+          <span className="text-[8px] font-bold whitespace-nowrap" style={{ color: fill }}>
+            {level.toFixed(2)}m
           </span>
         </div>
+
+        {/* 튜브 본체 */}
+        <div
+          className="absolute left-0 rounded-b-2xl rounded-t-xl overflow-hidden border-2 border-[#C8C0B4] bg-[#EDEBE6]"
+          style={{ width: TUBE_W, height: TUBE_H }}
+        >
+          <div
+            className="absolute left-0 right-0 bottom-0 transition-all duration-700"
+            style={{ height: `${fillPct}%`, background: fill }}
+          />
+        </div>
       </div>
 
-      {/* 범례 */}
-      <div className="text-center">
-        <div className="text-[11px] font-bold" style={{ color: colors.marker }}>
-          {current.toFixed(1)}m
-        </div>
-        <div className="text-[10px] text-moss">
-          {rise > 0 ? `+${rise.toFixed(1)}m` : '평상'}
-        </div>
-      </div>
-
-      {/* 상태 배지 */}
-      <div className="text-[9px] font-bold px-2 py-0.5 rounded-full" style={{ background: colors.bg, color: colors.text }}>
-        {{ normal: '정상', caution: '주의', warning: '위험', critical: '심각' }[station.status]}
+      {/* 하단 수치 범례 */}
+      <div className="flex flex-col gap-0.5 mt-1 w-full">
+        {[
+          { level: warningLevel, color: '#E24B4A', label: '위험' },
+          { level: cautionLevel, color: '#EF9F27', label: '주의' },
+          { level: normalLevel,  color: '#5DCAA5', label: '정상' },
+        ].map(item => (
+          <div key={item.label} className="flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full shrink-0" style={{ background: item.color }} />
+              <span className="text-[9px] font-semibold text-[#333]">{item.label}</span>
+            </div>
+            <span className="text-[9px] font-bold text-[#111]">{item.level}m</span>
+          </div>
+        ))}
       </div>
     </div>
   )
