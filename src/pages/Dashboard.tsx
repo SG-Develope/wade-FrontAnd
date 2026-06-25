@@ -31,7 +31,7 @@ function getValColor(status: string): string {
 
 export default function Dashboard() {
   const { data: waterData, isLoading: waterLoading } = useWaterLevels()
-  const { data: weather, isLoading: weatherLoading } = useWeather(86, 96)
+  const { data: weather, isLoading: weatherLoading } = useWeather('yangpo')
   const { data: cctvData } = useCctvList()
   const stations = waterData ?? []
 

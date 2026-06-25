@@ -7,20 +7,20 @@ const HRFCO_BASE = 'https://api.hrfco.go.kr'
 
 interface StationMeta {
   id: string
-  wlobscd: string
+  obsCode: string
   name: string
   location: string
-  attwl: number
-  wrnwl: number
-  almwl: number
-  srswl: number
-  pfh: number
+  wlAttention: number
+  wlWarning: number
+  wlAlarm: number
+  wlSerious: number
+  wlFlood: number
 }
 
 function calcStatus(level: number, meta: StationMeta): WaterStatus {
-  if (level >= meta.srswl) return 'critical'
-  if (level >= meta.almwl) return 'warning'
-  if (level >= meta.wrnwl) return 'caution'
+  if (level >= meta.wlSerious)  return 'critical'
+  if (level >= meta.wlAlarm)    return 'warning'
+  if (level >= meta.wlWarning)  return 'caution'
   return 'normal'
 }
 
@@ -31,15 +31,13 @@ const STATION_COORDS: Record<string, { lat: number; lng: number }> = {
 }
 
 export async function fetchWaterLevels(): Promise<Station[]> {
-  // 1. 백엔드에서 메타데이터(임계값) 가져오기
-  const { data: metaList } = await apiClient.get<StationMeta[]>('/api/water-levels/meta')
+  const { data: metaList } = await apiClient.get<StationMeta[]>('/api/stations')
 
-  // 2. HRFCO에서 각 관측소 현재 수위 직접 호출
   const stations = await Promise.all(
     metaList.map(async (meta) => {
       let level = -1
       try {
-        const url = `${HRFCO_BASE}/${HRFCO_KEY}/waterlevel/list/10M/${meta.wlobscd}.json`
+        const url = `${HRFCO_BASE}/${HRFCO_KEY}/waterlevel/list/10M/${meta.obsCode}.json`
         const { data } = await axios.get(url)
         const wl = data?.content?.[0]?.wl?.trim()
         if (wl && wl !== 'null') level = parseFloat(wl)
@@ -55,11 +53,11 @@ export async function fetchWaterLevels(): Promise<Station[]> {
         lng: coords.lng,
         currentLevel: Math.max(level, 0),
         status: level < 0 ? 'normal' as WaterStatus : calcStatus(level, meta),
-        normalLevel: meta.attwl,
-        cautionLevel: meta.wrnwl,
-        warningLevel: meta.almwl,
-        criticalLevel: meta.srswl,
-        designFloodLevel: meta.pfh,
+        normalLevel:      meta.wlAttention,
+        cautionLevel:     meta.wlWarning,
+        warningLevel:     meta.wlAlarm,
+        criticalLevel:    meta.wlSerious,
+        designFloodLevel: meta.wlFlood,
         measuredAt: new Date().toISOString(),
       } satisfies Station
     })
@@ -68,8 +66,7 @@ export async function fetchWaterLevels(): Promise<Station[]> {
 }
 
 export async function fetchWaterLevelHistory(stationId: string, hours = 24): Promise<WaterLevelHistory[]> {
-  // 메타데이터에서 wlobscd 가져오기
-  const { data: metaList } = await apiClient.get<StationMeta[]>('/api/water-levels/meta')
+  const { data: metaList } = await apiClient.get<StationMeta[]>('/api/stations')
   const meta = metaList.find(m => m.id === stationId)
   if (!meta) return []
 
@@ -83,7 +80,7 @@ export async function fetchWaterLevelHistory(stationId: string, hours = 24): Pro
   }
 
   const interval = hours <= 6 ? '10M' : '1H'
-  const url = `${HRFCO_BASE}/${HRFCO_KEY}/waterlevel/list/${interval}/${meta.wlobscd}/${fmt(start, hours <= 6)}/${fmt(now, hours <= 6)}.json`
+  const url = `${HRFCO_BASE}/${HRFCO_KEY}/waterlevel/list/${interval}/${meta.obsCode}/${fmt(start, hours <= 6)}/${fmt(now, hours <= 6)}.json`
 
   try {
     const { data } = await axios.get(url)

@@ -33,30 +33,30 @@ export interface WeatherAlertItem {
   issuedAt: string
 }
 
-export function useWeather(nx: number, ny: number) {
+export function useWeather(stationId: string) {
   return useQuery<Weather>({
-    queryKey: [...queryKeys.weather.current(), nx, ny],
-    queryFn: () => fetchWeather(nx, ny),
+    queryKey: [...queryKeys.weather.current(), stationId],
+    queryFn: () => fetchWeather(stationId),
     refetchInterval: TEN_MINUTES,
     staleTime: TEN_MINUTES,
     placeholderData: (prev) => prev,
   });
 }
 
-export function useShortForecast(nx: number, ny: number) {
+export function useShortForecast(stationId: string) {
   return useQuery<ShortForecastItem[]>({
-    queryKey: [...queryKeys.weather.shortForecast(), nx, ny],
-    queryFn: () => fetchShortForecast(nx, ny),
+    queryKey: [...queryKeys.weather.shortForecast(), stationId],
+    queryFn: () => fetchShortForecast(stationId),
     refetchInterval: ONE_HOUR,
     staleTime: ONE_HOUR,
     placeholderData: (prev) => prev,
   });
 }
 
-export function useUltraShortForecast() {
+export function useUltraShortForecast(stationId: string) {
   return useQuery<UltraShortForecastItem[]>({
-    queryKey: queryKeys.weather.ultraShortForecast(),
-    queryFn: fetchUltraShortForecast,
+    queryKey: [...queryKeys.weather.ultraShortForecast(), stationId],
+    queryFn: () => fetchUltraShortForecast(stationId),
     refetchInterval: TEN_MINUTES,
     staleTime: TEN_MINUTES,
     placeholderData: (prev) => prev,

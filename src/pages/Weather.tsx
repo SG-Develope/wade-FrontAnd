@@ -11,16 +11,16 @@ import AlertsCard from "@/components/weather/AlertsCard";
 import TyphoonCard from "@/components/weather/TyphoonCard";
 
 const REGIONS = [
-  { id: "yangpo", label: "구미 (양포교)",     nx: 86, ny: 96, areaKeyword: "구미" },
-  { id: "hoguk",  label: "칠곡 (호국의다리)", nx: 85, ny: 93, areaKeyword: "칠곡" },
+  { id: "yangpo", label: "구미 (양포교)",     areaKeyword: "구미" },
+  { id: "hoguk",  label: "칠곡 (호국의다리)", areaKeyword: "칠곡" },
 ] as const;
 
 export default function Weather() {
   const [regionId, setRegionId] = useState<string>("yangpo");
   const region = REGIONS.find(r => r.id === regionId) ?? REGIONS[0];
 
-  const { data: weather, isLoading: weatherLoading } = useWeather(region.nx, region.ny);
-  const { data: shortFcst = [], isLoading: shortLoading } = useShortForecast(region.nx, region.ny);
+  const { data: weather, isLoading: weatherLoading } = useWeather(region.id);
+  const { data: shortFcst = [], isLoading: shortLoading } = useShortForecast(region.id);
   const { data: allAlerts = [], isLoading: alertsLoading } = useWeatherAlerts();
 
   const alerts = allAlerts.filter((a: any) =>

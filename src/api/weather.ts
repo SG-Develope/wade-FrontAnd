@@ -1,17 +1,17 @@
 import apiClient from './apiClient';
 
-export async function fetchWeather(nx: number, ny: number) {
-  const { data } = await apiClient.get(`/api/weather/current?nx=${nx}&ny=${ny}`);
+export async function fetchWeather(stationId: string) {
+  const { data } = await apiClient.get(`/api/weather/current?stationId=${stationId}`);
   return data;
 }
 
-export async function fetchShortForecast(nx: number, ny: number) {
-  const { data } = await apiClient.get(`/api/weather/forecast/short?nx=${nx}&ny=${ny}`);
+export async function fetchShortForecast(stationId: string) {
+  const { data } = await apiClient.get(`/api/weather/forecast/short?stationId=${stationId}`);
   return data;
 }
 
-export async function fetchUltraShortForecast() {
-  const { data } = await apiClient.get("/api/weather/forecast/ultrashort");
+export async function fetchUltraShortForecast(stationId: string) {
+  const { data } = await apiClient.get(`/api/weather/forecast/ultrashort?stationId=${stationId}`);
   return data;
 }
 
