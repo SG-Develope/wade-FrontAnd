@@ -1,4 +1,4 @@
-export type WaterStatus = 'normal' | 'caution' | 'warning' | 'critical';
+export type WaterStatus = 'normal' | 'attention' | 'caution' | 'warning' | 'critical';
 
 export interface StationThresholds {
   normal: number;

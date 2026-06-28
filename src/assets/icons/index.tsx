@@ -61,6 +61,11 @@ export const DropletIcon = base(`
 `)
 
 // ── 상태 ──────────────────────────────────────────────
+export const EyeIcon = base(`
+  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+  <circle cx="12" cy="12" r="3"/>
+`)
+
 export const AlertCircleIcon = base(`
   <circle cx="12" cy="12" r="10"/>
   <line x1="12" y1="8" x2="12" y2="12"/>

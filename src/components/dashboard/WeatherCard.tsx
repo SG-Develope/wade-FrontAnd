@@ -22,6 +22,18 @@ export default function WeatherCard({ weather, isLoading }: Props) {
     )
   }
 
+  if (weather?.message) {
+    return (
+      <div className="bg-white border border-pebble rounded-xl p-2.5">
+        <div className="text-[10px] text-moss font-bold tracking-[0.04em] mb-2">현재 날씨</div>
+        <div className="flex items-center gap-1.5 text-[10px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-2">
+          <i className="ti ti-clock-pause text-[12px]" />
+          {weather.message}
+        </div>
+      </div>
+    )
+  }
+
   const skyIcon = weather
     ? (RAIN_ICON[weather.precipitationType] || SKY_ICON[weather.skyCondition] || '🌤️')
     : '🌤️'

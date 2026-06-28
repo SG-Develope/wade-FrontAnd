@@ -14,10 +14,11 @@ interface Props {
 }
 
 const STATUS_COLORS = {
-  normal:   '#1D9E75',
-  caution:  '#EF9F27',
-  warning:  '#E24B4A',
-  critical: '#7A1F1F',
+  normal:    '#1D9E75',
+  attention: '#4A90C4',
+  caution:   '#EF9F27',
+  warning:   '#E24B4A',
+  critical:  '#7A1F1F',
 }
 
 function formatLabel(isoStr: string): string {
@@ -41,15 +42,16 @@ export default function WaterLevelChart({ data, stationId, status = 'normal', no
   const CustomDot = (props: any) => {
     const { cx, cy, payload } = props
     if (payload.status === 'normal') return null
-    const dotColor = payload.status === 'caution' ? '#EF9F27'
+    const dotColor = payload.status === 'attention' ? '#4A90C4'
+      : payload.status === 'caution' ? '#EF9F27'
       : payload.status === 'warning' ? '#E24B4A' : '#7A1F1F'
     return <circle cx={cx} cy={cy} r={3} fill={dotColor} />
   }
 
   return (
-    <div style={{ outline: 'none' }} tabIndex={-1}>
+    <div className="outline-none" tabIndex={-1}>
       <ResponsiveContainer width="100%" height={200}>
-        <AreaChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }} style={{ outline: 'none' }}>
+        <AreaChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }} className="outline-none">
           <defs>
             <linearGradient id={`grad-${stationId}`} x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor={color} stopOpacity={0.3} />
@@ -76,9 +78,9 @@ export default function WaterLevelChart({ data, stationId, status = 'normal', no
               borderRadius: 8, fontSize: 11,
             }}
           />
-          <ReferenceLine y={normalLevel} stroke="#8A9A7A" strokeDasharray="4 2" label={{ value: 'normal', fontSize: 9, fill: '#8A9A7A' }} />
-          <ReferenceLine y={cautionLevel} stroke="#EF9F27" strokeDasharray="4 2" label={{ value: 'caution', fontSize: 9, fill: '#EF9F27' }} />
-          <ReferenceLine y={warningLevel} stroke="#E24B4A" strokeDasharray="4 2" label={{ value: 'warning', fontSize: 9, fill: '#E24B4A' }} />
+          <ReferenceLine y={normalLevel} stroke="#8A9A7A" strokeDasharray="4 2" label={{ value: '관심', fontSize: 9, fill: '#8A9A7A' }} />
+          <ReferenceLine y={cautionLevel} stroke="#EF9F27" strokeDasharray="4 2" label={{ value: '주의', fontSize: 9, fill: '#EF9F27' }} />
+          <ReferenceLine y={warningLevel} stroke="#E24B4A" strokeDasharray="4 2" label={{ value: '위험', fontSize: 9, fill: '#E24B4A' }} />
           <Area
             type="monotone"
             dataKey="level"

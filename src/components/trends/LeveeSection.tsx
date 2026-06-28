@@ -32,7 +32,7 @@ export default function LeveeSection({ station }: Props) {
 
   return (
     <div>
-      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ overflow: 'visible' }}>
+      <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} style={{ overflow: 'visible' }} preserveAspectRatio="xMidYMid meet">
         {/* 배경 그리드 */}
         {[0, 0.25, 0.5, 0.75, 1].map(pct => {
           const y = padT + chartH * pct

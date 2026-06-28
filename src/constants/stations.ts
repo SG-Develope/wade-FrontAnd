@@ -80,6 +80,7 @@ export const PLACES = [
 // 수위 상태 판단
 export const WATER_LEVEL_STATUS = {
   NORMAL: 'normal',
+  ATTENTION: 'attention',
   CAUTION: 'caution',
   WARNING: 'warning',
   CRITICAL: 'critical',
@@ -87,16 +88,18 @@ export const WATER_LEVEL_STATUS = {
 
 export const STATUS_LABELS = {
   normal: '정상',
+  attention: '관심',
   caution: '주의',
   warning: '위험',
   critical: '심각',
 };
 
 export const STATUS_COLORS = {
-  normal: { marker: '#1D9E75', bg: '#E1F5EE', text: '#0F6E56' },
-  caution: { marker: '#EF9F27', bg: '#FEF3DC', text: '#7A4300' },
-  warning: { marker: '#E24B4A', bg: '#FEEEEE', text: '#A32D2D' },
-  critical: { marker: '#7A1F1F', bg: '#FEEEEE', text: '#7A1F1F' },
+  normal:    { marker: '#1D9E75', bg: '#E1F5EE', text: '#0F6E56' },
+  attention: { marker: '#4A90C4', bg: '#EBF4FF', text: '#1A5C8A' },
+  caution:   { marker: '#EF9F27', bg: '#FEF3DC', text: '#7A4300' },
+  warning:   { marker: '#E24B4A', bg: '#FEEEEE', text: '#A32D2D' },
+  critical:  { marker: '#7A1F1F', bg: '#FEEEEE', text: '#7A1F1F' },
 };
 
 export function getStationStatus(stationId: string, level: number) {

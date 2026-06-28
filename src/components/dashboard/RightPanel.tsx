@@ -14,6 +14,7 @@ interface Props {
   waterLoading: boolean
   weather?: Weather
   weatherLoading: boolean
+  weatherError?: boolean
   guide?: AiGuide
   guideLoading: boolean
   guideError: boolean
@@ -24,27 +25,23 @@ interface Props {
 export default function RightPanel({
   open, onToggle: _onToggle,
   stations, waterLoading,
-  weather, weatherLoading,
+  weather, weatherLoading, weatherError,
   guide, guideLoading, guideError, onGuideRetry,
   marginTop = 0,
 }: Props) {
   return (
     <aside
+      className="shrink-0 overflow-hidden flex bg-white border-l border-pebble"
       style={{
         width: open ? '25%' : 0,
-        flexShrink: 0,
-        overflow: 'hidden',
         transition: 'width 0.22s ease',
-        display: 'flex',
-        borderLeft: '0.5px solid #EDE8E0',
-        background: '#fff',
         marginTop,
       }}
     >
-      <div className="flex flex-col overflow-y-auto" style={{ width: 280, flex: 1 }}>
+      <div className="flex flex-col overflow-y-auto w-70 flex-1">
         <TodayCard weather={weather} guide={guide} />
 
-        <div className="mx-[14px] mt-[14px]">
+        <div className="mx-3.5 mt-3.5">
           <AiBriefingCard
             guide={guide}
             isLoading={guideLoading}
@@ -54,7 +51,7 @@ export default function RightPanel({
         </div>
 
         <StationListPanel stations={stations} isLoading={waterLoading} />
-        <WeatherPanel weather={weather} isLoading={weatherLoading} />
+        <WeatherPanel weather={weather} isLoading={weatherLoading} isError={weatherError} />
         <StatsPanel stations={stations} />
       </div>
     </aside>

@@ -1,4 +1,3 @@
-import { STATUS_COLORS } from '@/constants/stations'
 import { usePlaces } from '@/queries/usePlaceQuery'
 import type { Station } from '@/types'
 

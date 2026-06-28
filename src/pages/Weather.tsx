@@ -19,7 +19,7 @@ export default function Weather() {
   const [regionId, setRegionId] = useState<string>("yangpo");
   const region = REGIONS.find(r => r.id === regionId) ?? REGIONS[0];
 
-  const { data: weather, isLoading: weatherLoading } = useWeather(region.id);
+  const { data: weather, isLoading: weatherLoading, isError: weatherError } = useWeather(region.id);
   const { data: shortFcst = [], isLoading: shortLoading } = useShortForecast(region.id);
   const { data: allAlerts = [], isLoading: alertsLoading } = useWeatherAlerts();
 
@@ -45,6 +45,7 @@ export default function Weather() {
       <CurrentWeatherStrip
         weather={weather}
         isLoading={weatherLoading}
+        isError={weatherError}
         regionId={regionId}
         regions={REGIONS}
         onRegionChange={setRegionId}

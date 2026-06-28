@@ -1,11 +1,11 @@
 import StatusBadge from '@/components/common/StatusBadge'
 import { TableRowSkeleton } from '@/components/common/Skeleton'
-import type { Station } from '@/types'
+import type { Station, WaterStatus } from '@/types'
 
 interface HistoryPoint {
   measuredAt: string
   level: number
-  status: string
+  status: WaterStatus
 }
 
 interface Props {
@@ -21,7 +21,7 @@ export default function HistoryTable({ history, isLoading, selectedStationData }
       <table className="w-full border-collapse text-[12px]">
         <thead>
           <tr>
-            {['시각', '수위', '상태', '평상 대비 (계산법 : 현재수위 - 관심수위)'].map(h => (
+            {['시각', '수위', '상태', '관심 대비'].map(h => (
               <th key={h} className="text-[10px] text-moss font-bold px-2 py-1.5 border-b border-pebble text-left tracking-[0.03em]">{h}</th>
             ))}
           </tr>

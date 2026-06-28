@@ -1,10 +1,11 @@
 import type { WaterStatus } from '@/types'
 
 const CONFIG: Record<WaterStatus, { cls: string; label: string }> = {
-  normal:   { cls: 'bg-[#E1F5EE] text-[#0F6E56]', label: '정상' },
-  caution:  { cls: 'bg-[#FEF3DC] text-[#7A4300]', label: '주의' },
-  warning:  { cls: 'bg-[#FEEEEE] text-[#A32D2D]', label: '위험' },
-  critical: { cls: 'bg-[#FEEEEE] text-[#7A1F1F]', label: '심각' },
+  normal:    { cls: 'bg-[#E1F5EE] text-[#0F6E56]', label: '정상' },
+  attention: { cls: 'bg-[#EBF4FF] text-[#1A5C8A]', label: '관심' },
+  caution:   { cls: 'bg-[#FEF3DC] text-[#7A4300]', label: '주의' },
+  warning:   { cls: 'bg-[#FEEEEE] text-[#A32D2D]', label: '위험' },
+  critical:  { cls: 'bg-[#FEEEEE] text-[#7A1F1F]', label: '심각' },
 }
 
 interface Props {

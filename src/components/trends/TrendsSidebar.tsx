@@ -3,10 +3,11 @@ import Skeleton from '@/components/common/Skeleton'
 import type { Station } from '@/types'
 
 const STATUS_COLOR: Record<string, string> = {
-  normal:   '#1D9E75',
-  caution:  '#EF9F27',
-  warning:  '#E24B4A',
-  critical: '#7A1F1F',
+  normal:    '#1D9E75',
+  attention: '#4A90C4',
+  caution:   '#EF9F27',
+  warning:   '#E24B4A',
+  critical:  '#7A1F1F',
 }
 
 interface Props {
@@ -79,7 +80,7 @@ export default function TrendsSidebar({ stations, isLoading }: Props) {
           <div key={s.id} className="mb-3">
             <div className="text-[11px] font-semibold text-soil mb-1.5">{s.name}</div>
             {[
-              { label: '평상', level: s.normalLevel,   color: '#5DCAA5' },
+              { label: '관심', level: s.normalLevel,   color: '#4A90C4' },
               { label: '주의', level: s.cautionLevel,  color: '#EF9F27' },
               { label: '위험', level: s.warningLevel,  color: '#E24B4A' },
               { label: '심각', level: s.criticalLevel, color: '#7A1F1F' },

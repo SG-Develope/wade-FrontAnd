@@ -5,6 +5,7 @@ export interface CctvApiItem {
   name: string
   location: string
   stationId: string
+  stationName: string
   streamUrl: string | null
 }
 

@@ -21,7 +21,6 @@ const WARN_ICON: Record<string, string> = {
 
 function formatIssuedAt(tmFc: string) {
   if (!tmFc || tmFc.length < 12) return tmFc
-  const y = tmFc.slice(0, 4)
   const mo = tmFc.slice(4, 6)
   const d = tmFc.slice(6, 8)
   const h = tmFc.slice(8, 10)

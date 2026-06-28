@@ -18,9 +18,10 @@ interface StationMeta {
 }
 
 function calcStatus(level: number, meta: StationMeta): WaterStatus {
-  if (level >= meta.wlSerious)  return 'critical'
-  if (level >= meta.wlAlarm)    return 'warning'
-  if (level >= meta.wlWarning)  return 'caution'
+  if (level >= meta.wlSerious)    return 'critical'
+  if (level >= meta.wlAlarm)      return 'warning'
+  if (level >= meta.wlWarning)    return 'caution'
+  if (level >= meta.wlAttention)  return 'attention'
   return 'normal'
 }
 

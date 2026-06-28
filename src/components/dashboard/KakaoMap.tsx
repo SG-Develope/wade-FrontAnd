@@ -42,6 +42,12 @@ export default function KakaoMap({ stations }: Props) {
         center, level: 9, scrollwheel: true, disableDoubleClickZoom: false,
       })
       renderMarkers()
+
+      const observer = new ResizeObserver(() => {
+        mapInstance.current?.relayout()
+      })
+      observer.observe(mapRef.current!)
+      return () => observer.disconnect()
     }
     if (window.kakao?.maps) {
       initMap()

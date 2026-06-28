@@ -8,6 +8,7 @@ export const ICONS = {
 
   // 수위 상태
   normal:     'ti-circle-check',
+  attention:  'ti-eye',
   caution:    'ti-alert-circle',
   warning:    'ti-alert-triangle',
   critical:   'ti-shield-exclamation',

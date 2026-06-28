@@ -15,11 +15,11 @@ function getFill(level: number, normalLevel: number, cautionLevel: number, warni
 }
 
 export default function TubeVisualization({
-  level, normalLevel, cautionLevel, warningLevel, criticalLevel, label
+  level, normalLevel, cautionLevel, warningLevel, label
 }: Props) {
   if (level == null || cautionLevel == null) return null
 
-  const maxDisplay = cautionLevel * 1.05
+  const maxDisplay = cautionLevel
   const fillPct = Math.min((level / maxDisplay) * 100, 100)
   const fill = getFill(level, normalLevel, cautionLevel, warningLevel)
 
@@ -69,7 +69,7 @@ export default function TubeVisualization({
         {[
           { level: warningLevel, color: '#E24B4A', label: '위험' },
           { level: cautionLevel, color: '#EF9F27', label: '주의' },
-          { level: normalLevel,  color: '#5DCAA5', label: '정상' },
+          { level: normalLevel,  color: '#4A90C4', label: '관심' },
         ].map(item => (
           <div key={item.label} className="flex items-center justify-between">
             <div className="flex items-center gap-1">
