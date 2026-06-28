@@ -15,9 +15,15 @@ function formatTime(fcstDate: string, fcstTime: string) {
 interface Props {
   items: ShortForecastItem[]
   isLoading: boolean
+  isError?: boolean
+  error?: unknown
 }
 
-export default function ShortForecastCard({ items, isLoading }: Props) {
+function is429(error: unknown): boolean {
+  return !!(error && typeof error === 'object' && 'response' in error && (error as any).response?.status === 429);
+}
+
+export default function ShortForecastCard({ items, isLoading, isError, error }: Props) {
   return (
     <div className="flex-1 bg-white border border-pebble rounded-[14px] overflow-hidden flex flex-col min-w-0">
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-pebble shrink-0">
@@ -34,6 +40,15 @@ export default function ShortForecastCard({ items, isLoading }: Props) {
             {[...Array(6)].map((_, i) => (
               <div key={i} className="h-7 bg-sand rounded animate-pulse" />
             ))}
+          </div>
+        ) : isError ? (
+          <div className="h-full flex flex-col items-center justify-center gap-1 p-4">
+            <i className={`ti ${is429(error) ? 'ti-clock-pause text-amber-400' : 'ti-alert-circle text-moss/40'} text-[18px]`} />
+            <span className="text-[11px] text-moss opacity-70 text-center">
+              {is429(error)
+                ? 'API 요청 초과\n잠시 후 자동으로 재시도합니다'
+                : '데이터를 불러올 수 없습니다'}
+            </span>
           </div>
         ) : items.length === 0 ? (
           <div className="h-full flex items-center justify-center text-[11px] text-moss opacity-60 p-4">

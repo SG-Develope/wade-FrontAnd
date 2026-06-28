@@ -20,7 +20,7 @@ export default function Weather() {
   const region = REGIONS.find(r => r.id === regionId) ?? REGIONS[0];
 
   const { data: weather, isLoading: weatherLoading, isError: weatherError } = useWeather(region.id);
-  const { data: shortFcst = [], isLoading: shortLoading } = useShortForecast(region.id);
+  const { data: shortFcst = [], isLoading: shortLoading, isError: shortError, error: shortErrorObj } = useShortForecast(region.id);
   const { data: allAlerts = [], isLoading: alertsLoading } = useWeatherAlerts();
 
   const alerts = allAlerts.filter((a: any) =>
@@ -56,7 +56,7 @@ export default function Weather() {
         <RadarGrid />
 
         <div className="flex gap-3" style={{ maxHeight: 300 }}>
-          <ShortForecastCard items={shortFcst} isLoading={shortLoading} />
+          <ShortForecastCard items={shortFcst} isLoading={shortLoading} isError={shortError} error={shortErrorObj} />
           <AlertsCard alerts={alerts} isLoading={alertsLoading} />
           <TyphoonCard />
         </div>

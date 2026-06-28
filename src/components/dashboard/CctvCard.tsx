@@ -8,6 +8,8 @@ export interface CctvInfo {
   markerColor: string
   stationId: string
   stationName: string
+  lat: number
+  lng: number
   streamUrl: string | null
 }
 

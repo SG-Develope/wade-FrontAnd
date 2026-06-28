@@ -62,6 +62,7 @@ export default function Dashboard() {
       level: '-', statusLabel: '-', textColor: '#8A9A7A',
       markerColor: '#8A9A7A', stationId: base.stationId,
       stationName: base.stationName,
+      lat: base.lat, lng: base.lng,
       streamUrl: base.streamUrl,
     }
     if (!station) return defaults
