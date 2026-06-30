@@ -50,7 +50,7 @@ export async function fetchCctvList(): Promise<CctvApiItem[]> {
 
     try {
       const url =
-        `/its-cctv/cctvInfo` +
+        `https://openapi.its.go.kr:9443/cctvInfo` +
         `?apiKey=${ITS_API_KEY}&type=its&cctvType=1` +
         `&minX=${station.minX}&maxX=${station.maxX}` +
         `&minY=${station.minY}&maxY=${station.maxY}` +
@@ -95,7 +95,7 @@ export async function fetchItsStreamUrl(
     const maxY = (cctv.lat + 0.01).toFixed(6)
 
     const url =
-      `/its-cctv/cctvInfo` +
+      `https://openapi.its.go.kr:9443/cctvInfo` +
       `?apiKey=${ITS_API_KEY}&type=its&cctvType=1` +
       `&minX=${minX}&maxX=${maxX}&minY=${minY}&maxY=${maxY}` +
       `&getType=json`
