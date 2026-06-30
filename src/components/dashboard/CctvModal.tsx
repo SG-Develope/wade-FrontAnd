@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import type { CctvInfo } from './CctvCard'
-import { fetchItsStreamUrl } from '@/api/cctv'
+import HlsPlayer from './HlsPlayer'
 
 interface Props {
   cctv: CctvInfo | null
@@ -8,24 +8,12 @@ interface Props {
 }
 
 export default function CctvModal({ cctv, onClose }: Props) {
-  const [streamUrl, setStreamUrl] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-
   useEffect(() => {
     if (!cctv) return
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [cctv, onClose])
-
-  useEffect(() => {
-    if (!cctv) { setStreamUrl(null); return }
-    setLoading(true)
-    fetchItsStreamUrl(cctv).then(url => {
-      setStreamUrl(url)
-      setLoading(false)
-    })
-  }, [cctv])
 
   if (!cctv) return null
 
@@ -62,19 +50,11 @@ export default function CctvModal({ cctv, onClose }: Props) {
 
         {/* 영상 */}
         <div className="relative bg-[#0f1a0f] h-65">
-          {loading ? (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2">
-              <div className="w-6 h-6 border-2 border-moss/30 border-t-moss rounded-full animate-spin" />
-              <span className="text-[12px] text-moss">영상 불러오는 중...</span>
-            </div>
-          ) : streamUrl ? (
-            <video
-              key={streamUrl}
-              src={streamUrl}
+          {cctv.streamUrl ? (
+            <HlsPlayer
+              key={cctv.streamUrl}
+              src={cctv.streamUrl}
               className="w-full h-full object-cover"
-              autoPlay
-              muted
-              playsInline
               controls
             />
           ) : (

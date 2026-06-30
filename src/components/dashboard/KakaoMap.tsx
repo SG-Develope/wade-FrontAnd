@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { STATIONS } from '@/constants/stations'
 import type { Station } from '@/types'
+import type { CctvInfo } from './CctvCard'
 import useAppStore from '@/stores/appStore'
 
 declare global {
@@ -9,6 +10,8 @@ declare global {
 
 interface Props {
   stations: Station[]
+  cctvList?: CctvInfo[]
+  onCctvClick?: (cctv: CctvInfo) => void
 }
 
 const STATUS_MARKER: Record<string, string> = {
@@ -27,16 +30,18 @@ const STATUS_COLOR: Record<string, string> = {
   normal: '#1D9E75', caution: '#EF9F27', warning: '#E24B4A', critical: '#7A1F1F',
 }
 
-export default function KakaoMap({ stations }: Props) {
-  const mapRef      = useRef<HTMLDivElement>(null)
-  const mapInstance = useRef<any>(null)
-  const overlaysRef = useRef<any[]>([])
+export default function KakaoMap({ stations, cctvList = [], onCctvClick }: Props) {
+  const mapRef         = useRef<HTMLDivElement>(null)
+  const mapInstance    = useRef<any>(null)
+  const overlaysRef    = useRef<any[]>([])
+  const cctvOverlaysRef = useRef<any[]>([])
   const { setSelectedStation } = useAppStore()
 
   useEffect(() => {
     if (!mapRef.current) return
     const initMap = () => {
       if (!window.kakao?.maps) return
+      if (mapInstance.current) return  // 이미 초기화됨 (StrictMode 이중 실행 방지)
       const center = new window.kakao.maps.LatLng(36.065, 128.38)
       mapInstance.current = new window.kakao.maps.Map(mapRef.current, {
         center, level: 9, scrollwheel: true, disableDoubleClickZoom: false,
@@ -121,7 +126,44 @@ export default function KakaoMap({ stations }: Props) {
     })
   }
 
+  const renderCctvMarkers = () => {
+    if (!mapInstance.current || !window.kakao?.maps) return
+    cctvOverlaysRef.current.forEach(o => o.setMap(null))
+    cctvOverlaysRef.current = []
+
+    cctvList.forEach(cctv => {
+      if (!cctv.lat || !cctv.lng) return
+
+      const el = document.createElement('div')
+      el.style.cssText = 'display:flex;flex-direction:column;align-items:center;cursor:pointer;user-select:none;'
+      el.innerHTML = `
+        <div style="background:#1a2e1a;border-radius:8px;padding:3px 7px;font-size:9px;color:#fff;font-weight:700;white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 6px rgba(0,0,0,0.25);margin-bottom:3px;text-align:center;">${cctv.name}</div>
+        <div style="width:26px;height:26px;border-radius:50%;background:#1a2e1a;border:2px solid #4CAF78;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4CAF78" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #1a2e1a;margin-top:-1px;"></div>
+      `
+
+      if (onCctvClick) {
+        el.addEventListener('click', () => onCctvClick(cctv))
+      }
+
+      const overlay = new window.kakao.maps.CustomOverlay({
+        position: new window.kakao.maps.LatLng(cctv.lat, cctv.lng),
+        content: el,
+        map: mapInstance.current,
+        yAnchor: 1.0,
+        zIndex: 5,
+      })
+
+      cctvOverlaysRef.current.push(overlay)
+    })
+  }
+
   useEffect(() => { if (mapInstance.current) renderMarkers() }, [stations])
+  useEffect(() => { if (mapInstance.current) renderCctvMarkers() }, [cctvList])
 
   return (
     <div ref={mapRef} className="w-full h-full bg-[#D6EBC8]">

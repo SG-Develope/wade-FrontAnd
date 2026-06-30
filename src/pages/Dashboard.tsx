@@ -9,9 +9,8 @@ import DangerBanner from '@/components/dashboard/DangerBanner'
 import CctvSection from '@/components/dashboard/CctvSection'
 import RightPanel from '@/components/dashboard/RightPanel'
 import type { CctvInfo } from '@/components/dashboard/CctvCard'
-
 function getStatusLabel(status: string): string {
-  if (status === 'normal')    return '정상 입니다.'
+  if (status === 'normal')    return '정상'
   if (status === 'attention') return '관심 단계입니다.'
   if (status === 'caution')   return '조금 주의하세요'
   if (status === 'warning')   return '지금은 위험해요'
@@ -89,7 +88,7 @@ export default function Dashboard() {
         style={{ marginTop: dangerStation ? 36 : 0 }}
       >
         <div className="flex-1 overflow-hidden">
-          <KakaoMap stations={stations} />
+          <KakaoMap stations={stations} cctvList={cctvList} onCctvClick={setSelectedCctv} />
         </div>
 
         {/* h-0 앵커: 지도와 패널 경계에 버튼을 띄움 */}
