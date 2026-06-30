@@ -50,7 +50,7 @@ export async function fetchCctvList(): Promise<CctvApiItem[]> {
 
     try {
       const url =
-        `https://openapi.its.go.kr:9443/cctvInfo` +
+        `/its-cctv/cctvInfo` +
         `?apiKey=${ITS_API_KEY}&type=its&cctvType=1` +
         `&minX=${station.minX}&maxX=${station.maxX}` +
         `&minY=${station.minY}&maxY=${station.maxY}` +
@@ -70,7 +70,7 @@ export async function fetchCctvList(): Promise<CctvApiItem[]> {
           stationName: station.name,
           lat:         parseFloat(item.coordy),
           lng:         parseFloat(item.coordx),
-          streamUrl:   item.cctvurl ?? null,
+          streamUrl:   item.cctvurl ? (item.cctvurl as string).replace('http://', 'https://') : null,
         })
       }
     } catch (e) {
@@ -95,7 +95,7 @@ export async function fetchItsStreamUrl(
     const maxY = (cctv.lat + 0.01).toFixed(6)
 
     const url =
-      `https://openapi.its.go.kr:9443/cctvInfo` +
+      `/its-cctv/cctvInfo` +
       `?apiKey=${ITS_API_KEY}&type=its&cctvType=1` +
       `&minX=${minX}&maxX=${maxX}&minY=${minY}&maxY=${maxY}` +
       `&getType=json`
@@ -105,7 +105,7 @@ export async function fetchItsStreamUrl(
     const items: any[] = Array.isArray(raw) ? raw : [raw]
     const match = items.find((item: any) => item.cctvname === cctv.name)
     console.log('[Modal] match:', match)
-    return match?.cctvurl ?? null
+    return match?.cctvurl ? (match.cctvurl as string).replace('http://', 'https://') : null
   } catch (e) {
     console.warn('ITS CCTV URL 재조회 실패:', e)
     return null
