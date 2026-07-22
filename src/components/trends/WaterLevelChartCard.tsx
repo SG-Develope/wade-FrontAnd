@@ -12,7 +12,7 @@ interface Props {
 
 export default function WaterLevelChartCard({ hours, isLoading, isError, errorMsg, history, selectedStationData }: Props) {
   return (
-    <div className="bg-white border border-pebble rounded-[14px] px-4 py-3.5 shrink-0 grow-0 basis-[58%] min-w-0">
+    <div className="bg-white border border-pebble rounded-[14px] px-4 py-3.5 shrink-0 grow-0 w-full lg:w-auto basis-auto lg:basis-[58%] min-w-0">
       <div className="flex items-center justify-between text-[10px] text-moss font-bold tracking-[0.04em] mb-2.5">
         수위 변화 그래프
         <span className="text-[9px] bg-river-light text-river px-1.5 py-0.5 rounded-full font-semibold">{hours}시간</span>

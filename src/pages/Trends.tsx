@@ -18,9 +18,9 @@ export default function Trends() {
   const history = historyData ?? []
 
   return (
-    <div className="flex h-full overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-full overflow-y-auto lg:overflow-hidden">
       {/* 메인 콘텐츠 */}
-      <div className="flex-1 overflow-y-auto px-5 py-5 bg-white">
+      <div className="lg:flex-1 lg:overflow-y-auto px-5 py-5 bg-white">
         <div className="flex items-center justify-between mb-3.5">
           <div>
             <div className="text-[14px] font-bold text-soil flex items-center gap-1.5" style={{ fontFamily: 'var(--font-gmarket)' }}>
@@ -38,7 +38,7 @@ export default function Trends() {
           onHoursChange={setHours}
         />
 
-        <div className="flex gap-3 mb-3">
+        <div className="flex flex-col lg:flex-row gap-3 mb-3">
           <WaterLevelChartCard
             hours={hours}
             isLoading={historyLoading}
@@ -47,8 +47,11 @@ export default function Trends() {
             history={history}
             selectedStationData={selectedStationData}
           />
+          {/* 제방 단면: 모바일 숨김 (lg:contents로 데스크탑 폭 유지) */}
           {selectedStationData && (
-            <LeveeSectionCard station={selectedStationData} />
+            <div className="hidden lg:contents">
+              <LeveeSectionCard station={selectedStationData} />
+            </div>
           )}
         </div>
 

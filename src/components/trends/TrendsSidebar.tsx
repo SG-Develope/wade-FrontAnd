@@ -17,10 +17,10 @@ interface Props {
 
 export default function TrendsSidebar({ stations, isLoading }: Props) {
   return (
-    <div className="w-[30%] bg-white border-l border-pebble overflow-y-auto flex flex-col shrink-0">
+    <div className="w-full lg:w-[30%] bg-white border-t lg:border-t-0 lg:border-l border-pebble lg:overflow-y-auto flex flex-col shrink-0 grow lg:grow-0">
 
-      {/* 튜브 시각화 */}
-      <div className="px-4 py-3.5 border-b border-[#F5F0EA]">
+      {/* 튜브 시각화: 모바일 숨김 (대시보드에 있음) */}
+      <div className="hidden lg:block px-4 py-3.5 border-b border-[#F5F0EA]">
         <div className="text-[10px] text-moss font-bold tracking-[0.05em] mb-1">수위 주의 단계 직관 시각화</div>
         <div className="text-[9px] text-moss opacity-60 mb-3">주의수위 기준 현재 수위 단계 확인</div>
         {isLoading
@@ -43,8 +43,8 @@ export default function TrendsSidebar({ stations, isLoading }: Props) {
         }
       </div>
 
-      {/* 현재 수위 바 */}
-      <div className="px-4 py-3.5 border-b border-[#F5F0EA]">
+      {/* 현재 수위 바: 모바일 숨김 (대시보드에 있음) */}
+      <div className="hidden lg:block px-4 py-3.5 border-b border-[#F5F0EA]">
         <div className="text-[10px] text-moss font-bold tracking-[0.05em] mb-2.5">현재 수위</div>
         {isLoading ? (
           <div className="flex flex-col gap-3">

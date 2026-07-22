@@ -20,7 +20,7 @@ function PanelSkeleton({ label, icon }: { label: string; icon: string }) {
   );
 }
 
-function RadarViewer({
+export function RadarViewer({
   label, icon, imageUrl, isLoading, fallbackLink, extra,
 }: {
   label: string;
@@ -75,7 +75,7 @@ function RadarViewer({
   );
 }
 
-function TyphoonPanel() {
+export function TyphoonPanel() {
   const { data: typhoon, isLoading } = useTyphoonInfo();
 
   if (isLoading) return <PanelSkeleton label="태풍 정보" icon="ti-tornado" />;

@@ -9,6 +9,7 @@ import RadarGrid from "@/components/weather/RadarGrid";
 import ShortForecastCard from "@/components/weather/ShortForecastCard";
 import AlertsCard from "@/components/weather/AlertsCard";
 import TyphoonCard from "@/components/weather/TyphoonCard";
+import WeatherMobileTabs from "@/components/weather/WeatherMobileTabs";
 
 const REGIONS = [
   { id: "yangpo", label: "구미 (양포교)",     areaKeyword: "구미" },
@@ -51,8 +52,15 @@ export default function Weather() {
         onRegionChange={setRegionId}
       />
 
-      {/* 스크롤 영역 */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 bg-sand space-y-3">
+      {/* 모바일(lg 미만): 탭 레이아웃 */}
+      <WeatherMobileTabs
+        regionId={region.id}
+        areaKeyword={region.areaKeyword}
+        className="lg:hidden"
+      />
+
+      {/* 데스크탑(lg 이상): 기존 스크롤 레이아웃 */}
+      <div className="hidden lg:flex flex-col flex-1 overflow-y-auto px-5 py-4 bg-sand space-y-3">
         <RadarGrid />
 
         <div className="flex gap-3" style={{ maxHeight: 300 }}>

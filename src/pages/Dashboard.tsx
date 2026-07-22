@@ -75,7 +75,7 @@ export default function Dashboard() {
   })
 
   return (
-    <div className="flex h-full overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-full overflow-y-auto lg:overflow-hidden">
 
       {dangerStation && (
         <div className="fixed top-[58px] left-0 right-0 z-30">
@@ -84,15 +84,15 @@ export default function Dashboard() {
       )}
 
       <div
-        className="flex-1 flex flex-col overflow-hidden relative"
+        className="h-[60vh] shrink-0 lg:h-auto lg:flex-1 flex flex-col overflow-hidden relative"
         style={{ marginTop: dangerStation ? 36 : 0 }}
       >
         <div className="flex-1 overflow-hidden">
           <KakaoMap stations={stations} cctvList={cctvList} onCctvClick={setSelectedCctv} />
         </div>
 
-        {/* h-0 앵커: 지도와 패널 경계에 버튼을 띄움 */}
-        <div className="relative h-0 shrink-0 z-20">
+        {/* h-0 앵커: 지도와 패널 경계에 버튼을 띄움 (모바일 숨김) */}
+        <div className="relative h-0 shrink-0 z-20 hidden lg:block">
           <button
             onClick={() => setBottomOpen(o => !o)}
             className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full flex items-center justify-center cursor-pointer transition-colors hover:bg-sand w-11 h-5 bg-white border border-pebble border-b-0 rounded-t-lg shadow-[0_-2px_8px_rgba(0,0,0,0.07)]"
@@ -101,11 +101,15 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {bottomOpen && <CctvSection cctvList={cctvList} onCctvClick={setSelectedCctv} />}
+        {bottomOpen && (
+          <div className="hidden lg:block">
+            <CctvSection cctvList={cctvList} onCctvClick={setSelectedCctv} />
+          </div>
+        )}
 
         <button
           onClick={() => setPanelOpen(p => !p)}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center cursor-pointer transition-colors hover:bg-sand w-5 h-11 bg-white border border-pebble border-r-0 rounded-l-lg shadow-[-2px_0_8px_rgba(0,0,0,0.07)]"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden lg:flex items-center justify-center cursor-pointer transition-colors hover:bg-sand w-5 h-11 bg-white border border-pebble border-r-0 rounded-l-lg shadow-[-2px_0_8px_rgba(0,0,0,0.07)]"
         >
           <i className={`ti ti-chevron-${panelOpen ? 'right' : 'left'} text-moss text-[11px]`} />
         </button>

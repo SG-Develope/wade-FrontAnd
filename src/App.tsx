@@ -11,7 +11,7 @@ const NAV_ITEMS = [
 function Logo() {
   return (
     <div className="flex items-center gap-2">
-      <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center bg-river overflow-hidden shrink-0">
+      <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-xl flex items-center justify-center bg-river overflow-hidden shrink-0">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
           <path
             d="M3,17 Q7,13 10,10 Q13,7 17,5"
@@ -34,7 +34,7 @@ function Logo() {
         >
           <span className="text-river">WADE</span>
         </div>
-        <div className="text-[10px] text-moss hidden md:block">
+        <div className="text-[10px] text-moss hidden lg:block">
           낙동강 실시간 수위 7 여가 안전
         </div>
       </div>
@@ -47,7 +47,7 @@ export default function App() {
     <div className="h-screen flex flex-col overflow-hidden bg-sand">
 
       {/* 데스크톱 상단 네비게이션 (md 이상) */}
-      <nav className="hidden md:flex items-center px-6 border-b border-pebble bg-white shrink-0 h-[58px]">
+      <nav className="hidden lg:flex items-center px-6 border-b border-pebble bg-white shrink-0 h-[58px]">
         <div className="mr-8">
           <Logo />
         </div>
@@ -73,18 +73,18 @@ export default function App() {
       </nav>
 
       {/* 모바일 상단 헤더 (md 미만) */}
-      <div className="md:hidden flex items-center justify-between px-4 border-b border-pebble bg-white shrink-0 h-[48px]">
+      <div className="lg:hidden flex items-center justify-between px-4 border-b border-pebble bg-white shrink-0 h-[48px]">
         <Logo />
         <div className="text-[10px] text-moss">낙동강 실시간 수위</div>
       </div>
 
       {/* 페이지 콘텐츠 */}
-      <div className="flex-1 overflow-hidden pb-[56px] md:pb-0">
+      <div className="flex-1 overflow-hidden pb-[56px] lg:pb-0">
         <Outlet />
       </div>
 
       {/* 모바일 하단 탭바 (md 미만) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-pebble h-[56px] flex">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-pebble h-[56px] flex">
         {NAV_ITEMS.map(({ to, label, icon }) => (
           <NavLink
             key={to}

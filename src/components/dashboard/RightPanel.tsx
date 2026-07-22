@@ -31,12 +31,8 @@ export default function RightPanel({
 }: Props) {
   return (
     <aside
-      className="shrink-0 overflow-hidden flex bg-white border-l border-pebble"
-      style={{
-        width: open ? '25%' : 0,
-        transition: 'width 0.22s ease',
-        marginTop,
-      }}
+      className={`shrink-0 flex bg-white border-t lg:border-t-0 lg:border-l border-pebble w-full overflow-y-auto lg:overflow-hidden transition-[width] duration-200 ${open ? 'lg:w-1/4' : 'lg:w-0'}`}
+      style={{ marginTop }}
     >
       <div className="flex flex-col overflow-y-auto w-70 flex-1">
         <TodayCard weather={weather} guide={guide} />
