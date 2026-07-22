@@ -19,8 +19,8 @@ export default function Weather() {
   const [regionId, setRegionId] = useState<string>("yangpo");
   const region = REGIONS.find(r => r.id === regionId) ?? REGIONS[0];
 
-  const { data: weather, isLoading: weatherLoading, isError: weatherError } = useWeather(region.id);
-  const { data: shortFcst = [], isLoading: shortLoading, isError: shortError, error: shortErrorObj } = useShortForecast(region.id);
+  const { data: weather, isLoading: weatherLoading, isError: weatherError, isPlaceholderData: weatherSwitching } = useWeather(region.id);
+  const { data: shortFcst = [], isLoading: shortLoading, isError: shortError, error: shortErrorObj, isPlaceholderData: shortSwitching } = useShortForecast(region.id);
   const { data: allAlerts = [], isLoading: alertsLoading } = useWeatherAlerts();
 
   const alerts = allAlerts.filter((a: any) =>
@@ -44,7 +44,7 @@ export default function Weather() {
       {/* 현재 날씨 + 지역 셀렉트 */}
       <CurrentWeatherStrip
         weather={weather}
-        isLoading={weatherLoading}
+        isLoading={weatherLoading || weatherSwitching}
         isError={weatherError}
         regionId={regionId}
         regions={REGIONS}
@@ -56,7 +56,7 @@ export default function Weather() {
         <RadarGrid />
 
         <div className="flex gap-3" style={{ maxHeight: 300 }}>
-          <ShortForecastCard items={shortFcst} isLoading={shortLoading} isError={shortError} error={shortErrorObj} />
+          <ShortForecastCard items={shortFcst} isLoading={shortLoading || shortSwitching} isError={shortError} error={shortErrorObj} />
           <AlertsCard alerts={alerts} isLoading={alertsLoading} />
           <TyphoonCard />
         </div>

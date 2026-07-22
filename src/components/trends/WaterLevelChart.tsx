@@ -8,7 +8,7 @@ interface Props {
   data: WaterLevelHistory[]
   stationId: string
   status?: string
-  normalLevel: number
+  attentionLevel: number
   cautionLevel: number
   warningLevel: number
 }
@@ -30,7 +30,7 @@ function formatLabel(isoStr: string): string {
   return `${mm}/${dd} ${hh}:${min}`
 }
 
-export default function WaterLevelChart({ data, stationId, status = 'normal', normalLevel, cautionLevel, warningLevel }: Props) {
+export default function WaterLevelChart({ data, stationId, status = 'normal', attentionLevel, cautionLevel, warningLevel }: Props) {
   const color = STATUS_COLORS[status as keyof typeof STATUS_COLORS] ?? STATUS_COLORS.normal
 
   const chartData = data.map(d => ({
@@ -78,7 +78,7 @@ export default function WaterLevelChart({ data, stationId, status = 'normal', no
               borderRadius: 8, fontSize: 11,
             }}
           />
-          <ReferenceLine y={normalLevel} stroke="#8A9A7A" strokeDasharray="4 2" label={{ value: '관심', fontSize: 9, fill: '#8A9A7A' }} />
+          <ReferenceLine y={attentionLevel} stroke="#8A9A7A" strokeDasharray="4 2" label={{ value: '관심', fontSize: 9, fill: '#8A9A7A' }} />
           <ReferenceLine y={cautionLevel} stroke="#EF9F27" strokeDasharray="4 2" label={{ value: '주의', fontSize: 9, fill: '#EF9F27' }} />
           <ReferenceLine y={warningLevel} stroke="#E24B4A" strokeDasharray="4 2" label={{ value: '위험', fontSize: 9, fill: '#E24B4A' }} />
           <Area

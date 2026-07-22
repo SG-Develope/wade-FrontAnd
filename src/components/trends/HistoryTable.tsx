@@ -36,7 +36,7 @@ export default function HistoryTable({ history, isLoading, selectedStationData }
             </tr>
           )}
           {!isLoading && history.slice(-12).reverse().map((point, i) => {
-            const normal = selectedStationData?.normalLevel ?? 1.6
+            const normal = selectedStationData?.attentionLevel ?? 1.6
             const diff = point.level - normal
             const diffColor = diff > 0.5 ? '#E24B4A' : diff > 0 ? '#EF9F27' : '#1D9E75'
             return (

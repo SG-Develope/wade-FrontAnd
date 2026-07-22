@@ -16,7 +16,7 @@ export interface Station {
   lng: number;
   currentLevel: number;
   status: WaterStatus;
-  normalLevel: number;
+  attentionLevel: number;
   cautionLevel: number;
   warningLevel: number;
   criticalLevel: number;

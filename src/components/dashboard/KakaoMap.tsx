@@ -74,7 +74,7 @@ export default function KakaoMap({ stations, cctvList = [], onCctvClick }: Props
       : Object.values(STATIONS).map(s => ({
           id: s.id, name: s.name, lat: s.lat, lng: s.lng,
           currentLevel: s.thresholds.normal, status: 'normal' as const,
-          location: s.location, normalLevel: s.thresholds.normal,
+          location: s.location, attentionLevel: s.thresholds.normal,
           cautionLevel: s.thresholds.caution, warningLevel: s.thresholds.warning,
           criticalLevel: s.thresholds.critical, designFloodLevel: s.thresholds.designFlood,
           measuredAt: '',

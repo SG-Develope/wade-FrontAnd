@@ -35,7 +35,7 @@ export default function WaterLevelChartCard({ hours, isLoading, isError, errorMs
           data={history}
           stationId={selectedStationData?.id ?? ''}
           status={selectedStationData?.status}
-          normalLevel={selectedStationData?.normalLevel ?? 1.6}
+          attentionLevel={selectedStationData?.attentionLevel ?? 1.6}
           cautionLevel={selectedStationData?.cautionLevel ?? 3.5}
           warningLevel={selectedStationData?.warningLevel ?? 5.0}
         />

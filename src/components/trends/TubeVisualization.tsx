@@ -1,27 +1,27 @@
 interface Props {
   level: number
-  normalLevel: number
+  attentionLevel: number
   cautionLevel: number
   warningLevel: number
   criticalLevel: number
   label?: string
 }
 
-function getFill(level: number, normalLevel: number, cautionLevel: number, warningLevel: number) {
+function getFill(level: number, attentionLevel: number, cautionLevel: number, warningLevel: number) {
   if (level >= warningLevel) return '#E24B4A'
   if (level >= cautionLevel) return '#EF9F27'
-  if (level >= normalLevel)  return '#4A90C4'
+  if (level >= attentionLevel)  return '#4A90C4'
   return '#5DCAA5'
 }
 
 export default function TubeVisualization({
-  level, normalLevel, cautionLevel, warningLevel, label
+  level, attentionLevel, cautionLevel, warningLevel, label
 }: Props) {
   if (level == null || cautionLevel == null) return null
 
   const maxDisplay = cautionLevel
   const fillPct = Math.min((level / maxDisplay) * 100, 100)
-  const fill = getFill(level, normalLevel, cautionLevel, warningLevel)
+  const fill = getFill(level, attentionLevel, cautionLevel, warningLevel)
 
   const TUBE_H = 160
   const TUBE_W = 44
@@ -69,7 +69,7 @@ export default function TubeVisualization({
         {[
           { level: warningLevel, color: '#E24B4A', label: '위험' },
           { level: cautionLevel, color: '#EF9F27', label: '주의' },
-          { level: normalLevel,  color: '#4A90C4', label: '관심' },
+          { level: attentionLevel,  color: '#4A90C4', label: '관심' },
         ].map(item => (
           <div key={item.label} className="flex items-center justify-between">
             <div className="flex items-center gap-1">

@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function LeveeSection({ station }: Props) {
-  const normal   = station.normalLevel    ?? 1.6
+  const normal   = station.attentionLevel    ?? 1.6
   const caution  = station.cautionLevel   ?? 3.5
   const warning  = station.warningLevel   ?? 5.0
   const critical = station.criticalLevel  ?? 6.5

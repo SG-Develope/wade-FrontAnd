@@ -31,7 +31,7 @@ export default function TrendsSidebar({ stations, isLoading }: Props) {
                 <TubeVisualization
                   key={s.id}
                   level={s.currentLevel}
-                  normalLevel={s.normalLevel}
+                  attentionLevel={s.attentionLevel}
                   cautionLevel={s.cautionLevel}
                   warningLevel={s.warningLevel}
                   criticalLevel={s.criticalLevel ?? s.warningLevel * 1.2}
@@ -80,7 +80,7 @@ export default function TrendsSidebar({ stations, isLoading }: Props) {
           <div key={s.id} className="mb-3">
             <div className="text-[11px] font-semibold text-soil mb-1.5">{s.name}</div>
             {[
-              { label: '관심', level: s.normalLevel,   color: '#4A90C4' },
+              { label: '관심', level: s.attentionLevel,   color: '#4A90C4' },
               { label: '주의', level: s.cautionLevel,  color: '#EF9F27' },
               { label: '위험', level: s.warningLevel,  color: '#E24B4A' },
               { label: '심각', level: s.criticalLevel, color: '#7A1F1F' },

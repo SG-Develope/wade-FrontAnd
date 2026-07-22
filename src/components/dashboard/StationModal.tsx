@@ -13,7 +13,7 @@ export default function StationModal() {
   const stationInfo = Object.values(STATIONS).find(s => s.id === station.id)
   const designFlood = station.designFloodLevel ?? stationInfo?.thresholds.designFlood ?? 10
   const fillPct = Math.min((station.currentLevel / designFlood) * 100, 100)
-  const riseFromNormal = (station.currentLevel - (station.normalLevel ?? 1.6)).toFixed(2)
+  const riseFromNormal = (station.currentLevel - (station.attentionLevel ?? 1.6)).toFixed(2)
   const cctvUrl = `https://www.hrfco.go.kr/cctvpage/cctv_view.do?stn_id=${station.id}`
 
   return (
@@ -60,7 +60,7 @@ export default function StationModal() {
         <div className="px-4 py-3 grid grid-cols-4 gap-2 border-b border-pebble">
           {[
             { label: '현재 수위', value: `${station.currentLevel?.toFixed(2)}m`, color: colors.text },
-            { label: '평상수위', value: `${station.normalLevel?.toFixed(1)}m`, color: '#2D3A1F' },
+            { label: '평상수위', value: `${station.attentionLevel?.toFixed(1)}m`, color: '#2D3A1F' },
             { label: '평상 대비', value: `+${riseFromNormal}m`, color: Number(riseFromNormal) > 0 ? '#EF9F27' : '#1D9E75' },
             { label: '홍수위까지', value: `${(designFlood - station.currentLevel).toFixed(2)}m`, color: '#2D3A1F' },
           ].map(item => (

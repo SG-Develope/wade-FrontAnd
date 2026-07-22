@@ -54,7 +54,7 @@ export async function fetchWaterLevels(): Promise<Station[]> {
         lng: coords.lng,
         currentLevel: Math.max(level, 0),
         status: level < 0 ? 'normal' as WaterStatus : calcStatus(level, meta),
-        normalLevel:      meta.wlAttention,
+        attentionLevel:      meta.wlAttention,
         cautionLevel:     meta.wlWarning,
         warningLevel:     meta.wlAlarm,
         criticalLevel:    meta.wlSerious,

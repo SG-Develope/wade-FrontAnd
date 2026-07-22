@@ -1,4 +1,4 @@
-const STATIONS_META = [
+const STATIONS = [
   { id: 'yangpo', label: '양포교',     color: '#1D9E75' },
   { id: 'hoguk',  label: '호국의다리', color: '#4A90C4' },
 ]
@@ -11,12 +11,12 @@ interface Props {
   onHoursChange: (h: number) => void
 }
 
-export { STATIONS_META, HOURS_OPTIONS }
+export { STATIONS, HOURS_OPTIONS }
 
 export default function StationHoursSelector({ selectedStation, hours, onStationChange, onHoursChange }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-1.5 mb-3.5">
-      {STATIONS_META.map(s => (
+      {STATIONS.map(s => (
         <button
           key={s.id}
           onClick={() => onStationChange(s.id)}

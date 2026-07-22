@@ -1,3 +1,4 @@
+import { data } from 'react-router-dom'
 import apiClient from './apiClient'
 import axios from 'axios'
 
@@ -33,6 +34,8 @@ export async function fetchCctvList(): Promise<CctvApiItem[]> {
 
   // 1. 백엔드에서 station 목록 (bounding box 포함)
   const { data: stations } = await apiClient.get<ItsStation[]>('/api/stations')
+
+  console.log("data", data);
 
   const results: CctvApiItem[] = []
 
