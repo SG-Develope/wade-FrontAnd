@@ -5,6 +5,7 @@ import LeisureFilterBar from '@/components/leisure/LeisureFilterBar'
 import LeisureMap from '@/components/leisure/LeisureMap'
 import PlaceList from '@/components/leisure/PlaceList'
 import LeisureSidebar from '@/components/leisure/LeisureSidebar'
+import Seo from '@/components/common/Seo'
 
 export default function Leisure() {
   const [filter, setFilter]     = useState('all')
@@ -23,6 +24,11 @@ export default function Leisure() {
 
   return (
     <div className="flex h-full overflow-hidden relative">
+      <Seo
+        title="여가 지도"
+        description="낙동강 강변의 산책로·자전거길·공원 등 여가 장소를 지도에서 안전하게 찾아보세요."
+        path="/leisure"
+      />
       {/* 컨텐츠 */}
       <div className="flex-1 flex flex-col overflow-hidden">
         <LeisureFilterBar filter={filter} onFilterChange={setFilter} />

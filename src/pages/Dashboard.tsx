@@ -9,6 +9,7 @@ import DangerBanner from '@/components/dashboard/DangerBanner'
 import CctvSection from '@/components/dashboard/CctvSection'
 import RightPanel from '@/components/dashboard/RightPanel'
 import type { CctvInfo } from '@/components/dashboard/CctvCard'
+import Seo from '@/components/common/Seo'
 function getStatusLabel(status: string): string {
   if (status === 'normal')    return '정상'
   if (status === 'attention') return '관심 단계입니다.'
@@ -76,6 +77,11 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col lg:flex-row h-full overflow-y-auto lg:overflow-hidden">
+      <Seo
+        title="실시간 현황"
+        description="낙동강 주요 지점의 실시간 수위와 CCTV, 위험 알림을 지도에서 한눈에 확인하세요."
+        path="/dashboard"
+      />
 
       {dangerStation && (
         <div className="fixed top-[58px] left-0 right-0 z-30">

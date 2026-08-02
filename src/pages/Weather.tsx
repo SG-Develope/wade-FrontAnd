@@ -10,6 +10,7 @@ import ShortForecastCard from "@/components/weather/ShortForecastCard";
 import AlertsCard from "@/components/weather/AlertsCard";
 import TyphoonCard from "@/components/weather/TyphoonCard";
 import WeatherMobileTabs from "@/components/weather/WeatherMobileTabs";
+import Seo from "@/components/common/Seo";
 
 const REGIONS = [
   { id: "yangpo", label: "구미 (양포교)",     areaKeyword: "구미" },
@@ -30,6 +31,11 @@ export default function Weather() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      <Seo
+        title="날씨 레이더"
+        description="낙동강 유역의 기상 레이더, 단기·초단기 예보와 특보·태풍 정보를 실시간으로 확인하세요."
+        path="/weather"
+      />
       {/* 헤더 */}
       <div className="px-5 pt-4 pb-3 bg-white shrink-0 border-b border-pebble">
         <div className="text-[14px] font-bold text-soil flex items-center gap-1.5"

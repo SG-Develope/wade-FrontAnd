@@ -5,6 +5,7 @@ import WaterLevelChartCard from '@/components/trends/WaterLevelChartCard'
 import LeveeSectionCard from '@/components/trends/LeveeSectionCard'
 import HistoryTable from '@/components/trends/HistoryTable'
 import TrendsSidebar from '@/components/trends/TrendsSidebar'
+import Seo from '@/components/common/Seo'
 
 export default function Trends() {
   const [selectedStation, setSelectedStation] = useState('yangpo')
@@ -19,6 +20,11 @@ export default function Trends() {
 
   return (
     <div className="flex flex-col lg:flex-row h-full overflow-y-auto lg:overflow-hidden">
+      <Seo
+        title="수위 추이"
+        description="낙동강 지점별 수위 변화 추이와 제방 구간 현황을 시간대별 차트로 살펴보세요."
+        path="/trends"
+      />
       {/* 메인 콘텐츠 */}
       <div className="lg:flex-1 lg:overflow-y-auto px-5 py-5 bg-white">
         <div className="flex items-center justify-between mb-3.5">
