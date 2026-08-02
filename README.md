@@ -1,4 +1,4 @@
-# 🌊 WADE — 낙동강 수위 실시간 모니터링
+# WADE — 낙동강 수위 실시간 모니터링
 
 ![title-image](/public/og-image.jpg)
 
