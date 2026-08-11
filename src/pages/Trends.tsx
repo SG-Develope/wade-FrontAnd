@@ -29,7 +29,7 @@ export default function Trends() {
       <div className="lg:flex-1 lg:overflow-y-auto px-5 py-5 bg-white">
         <div className="flex items-center justify-between mb-3.5">
           <div>
-            <div className="text-[14px] font-bold text-soil flex items-center gap-1.5" style={{ fontFamily: 'var(--font-gmarket)' }}>
+            <div className="text-[14px] font-bold text-soil flex items-center gap-1.5 font-gmarket">
               <i className="ti ti-chart-line text-river" />
               수위 추이
             </div>

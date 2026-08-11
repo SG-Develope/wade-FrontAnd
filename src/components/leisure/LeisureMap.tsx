@@ -92,10 +92,9 @@ export default function LeisureMap({ places, stations, onPlaceSelect }: Props) {
       <div ref={mapRef} className="w-full h-full bg-[#D6EBC8]" />
       {/* 추후 개발 오버레이 */}
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-2"
-        style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(2px)' }}
+        className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-white/72 backdrop-blur-[2px]"
       >
-        <i className="ti ti-map-2 text-moss" style={{ fontSize: 28 }} />
+        <i className="ti ti-map-2 text-moss text-[28px]" />
         <span className="text-[13px] font-bold text-soil">여가 지도</span>
         <span className="text-[11px] text-moss">추후 개발 예정 기능입니다</span>
         <span className="text-[10px] text-moss opacity-60">장소별 실시간 수위 연동 지도 서비스</span>

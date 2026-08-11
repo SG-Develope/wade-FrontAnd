@@ -23,8 +23,7 @@ export default function StationModal() {
     >
       <div
         onClick={e => e.stopPropagation()}
-        className="bg-white rounded-[18px] w-full max-w-[600px] overflow-hidden border border-pebble"
-        style={{ animation: 'slideUp 0.2s ease' }}
+        className="bg-white rounded-[18px] w-full max-w-[600px] overflow-hidden border border-pebble [animation:slideUp_0.2s_ease]"
       >
         {/* 헤더 */}
         <div className="flex items-center justify-between px-4 py-3.5 border-b border-pebble">
@@ -51,7 +50,7 @@ export default function StationModal() {
             title={`${station.name} CCTV`}
           />
           <div className="absolute top-2 left-2.5 bg-danger text-white text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-white" style={{ animation: 'blink 1.2s infinite' }} />
+            <span className="w-1.5 h-1.5 rounded-full bg-white [animation:blink_1.2s_infinite]" />
             LIVE
           </div>
         </div>

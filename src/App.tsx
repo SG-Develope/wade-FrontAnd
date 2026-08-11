@@ -29,8 +29,7 @@ function Logo() {
       </div>
       <div>
         <div
-          className="text-sm font-bold tracking-tight text-soil"
-          style={{ fontFamily: "var(--font-gmarket)" }}
+          className="text-sm font-bold tracking-tight text-soil font-gmarket"
         >
           <span className="text-river">WADE</span>
         </div>

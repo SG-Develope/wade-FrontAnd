@@ -63,10 +63,9 @@ export default function RadarSection() {
           <button
             key={key}
             onClick={() => { setRadarType(key); setImgError(false) }}
-            className={`flex items-center gap-1.5 text-[12px] px-4 py-2.5 cursor-pointer border-b-2 transition-colors ${
+            className={`flex items-center gap-1.5 text-[12px] px-4 py-2.5 cursor-pointer bg-transparent border-0 border-b-2 transition-colors ${
               radarType === key ? 'border-river text-river font-semibold' : 'border-transparent text-moss'
             }`}
-            style={{ background: 'none', border: 'none', borderBottom: `2px solid ${radarType === key ? '#1D9E75' : 'transparent'}` }}
           >
             <i className={`ti ${icon} text-[13px]`} />
             {label}

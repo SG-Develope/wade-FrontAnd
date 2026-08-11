@@ -80,8 +80,8 @@ export default function UltraShortForecastCard({ items, isLoading }: Props) {
                     <td className="px-2 py-1.5 whitespace-nowrap">
                       {hasPrecip ? (
                         <span
-                          className="text-[9px] font-bold px-1.5 py-0.5 rounded-md"
-                          style={{ color: precipColor, background: '#EBF2FA' }}
+                          className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-[#EBF2FA]"
+                          style={{ color: precipColor }}
                         >
                           {item.precipType}
                         </span>

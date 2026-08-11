@@ -30,7 +30,7 @@ export default function ActivityStrip({ stations }: Props) {
   if (places.length === 0) return null
 
   return (
-    <div className="bg-white border-t border-pebble px-4 py-2.5 flex gap-2 items-center shrink-0 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+    <div className="bg-white border-t border-pebble px-4 py-2.5 flex gap-2 items-center shrink-0 overflow-x-auto [scrollbar-width:none]">
       <span className="text-[10px] text-moss font-semibold tracking-[0.04em] whitespace-nowrap mr-1">여가 현황</span>
       {places.map(place => {
         const level  = getStationLevel(place.stationId)

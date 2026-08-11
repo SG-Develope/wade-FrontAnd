@@ -28,14 +28,11 @@ export default function CctvSection({ cctvList, onCctvClick }: Props) {
       </div>
 
       <div
-        style={{
-          maxHeight: open ? '200px' : '0',
-          overflow: 'hidden',
-          transition: 'max-height 0.22s ease',
-        }}
+        className="overflow-hidden transition-[max-height] duration-[220ms]"
+        style={{ maxHeight: open ? '200px' : '0' }}
       >
         <div className="px-[18px] pb-3">
-          <div className="flex gap-2 overflow-x-auto pb-1.5" style={{ scrollbarWidth: 'thin', scrollbarColor: '#b8ccb0 transparent' }}>
+          <div className="flex gap-2 overflow-x-auto pb-1.5 [scrollbar-width:thin] [scrollbar-color:#b8ccb0_transparent]">
             {cctvList.length > 0 ? cctvList.map(cctv => (
               <div key={cctv.id} className="w-37.5 shrink-0">
                 <CctvCard cctv={cctv} onClick={onCctvClick} />

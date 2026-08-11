@@ -38,8 +38,7 @@ export default function Weather() {
       />
       {/* 헤더 */}
       <div className="px-5 pt-4 pb-3 bg-white shrink-0 border-b border-pebble">
-        <div className="text-[14px] font-bold text-soil flex items-center gap-1.5"
-          style={{ fontFamily: "var(--font-gmarket)" }}>
+        <div className="text-[14px] font-bold text-soil flex items-center gap-1.5 font-gmarket">
           <i className="ti ti-cloud text-river" />
           날씨 · 레이더
         </div>
@@ -69,7 +68,7 @@ export default function Weather() {
       <div className="hidden lg:flex flex-col flex-1 overflow-y-auto px-5 py-4 bg-sand space-y-3">
         <RadarGrid />
 
-        <div className="flex gap-3" style={{ maxHeight: 300 }}>
+        <div className="flex gap-3 max-h-[300px]">
           <ShortForecastCard items={shortFcst} isLoading={shortLoading || shortSwitching} isError={shortError} error={shortErrorObj} />
           <AlertsCard alerts={alerts} isLoading={alertsLoading} />
           <TyphoonCard />

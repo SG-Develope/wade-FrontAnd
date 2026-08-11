@@ -58,11 +58,10 @@ export default function Leisure() {
 
       {/* 준비 중 오버레이 */}
       <div
-        className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-3"
-        style={{ background: 'rgba(245,247,244,0.88)', backdropFilter: 'blur(4px)' }}
+        className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-[rgba(245,247,244,0.88)] backdrop-blur-[4px]"
       >
         <div className="w-14 h-14 rounded-2xl bg-white border border-pebble flex items-center justify-center shadow-sm">
-          <i className="ti ti-map-2 text-river" style={{ fontSize: 28 }} />
+          <i className="ti ti-map-2 text-river text-[28px]" />
         </div>
         <div className="text-[15px] font-bold text-soil">여가 지도 준비 중</div>
         <div className="text-[12px] text-moss opacity-70 text-center leading-relaxed">

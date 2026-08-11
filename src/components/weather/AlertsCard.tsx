@@ -57,7 +57,7 @@ export default function AlertsCard({ alerts, isLoading }: Props) {
         ) : alerts.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center gap-2 py-6">
             <div className="w-10 h-10 rounded-full bg-[#E1F5EE] flex items-center justify-center">
-              <i className="ti ti-shield-check text-river" style={{ fontSize: 20 }} />
+              <i className="ti ti-shield-check text-river text-[20px]" />
             </div>
             <div className="text-[12px] font-semibold text-soil">현재 발효 중인 특보 없음</div>
             <div className="text-[10px] text-moss opacity-70 text-center">기상특보 없이 안전한 날씨입니다</div>

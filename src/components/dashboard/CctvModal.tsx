@@ -26,8 +26,7 @@ export default function CctvModal({ cctv, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-[18px] w-full max-w-[640px] overflow-hidden border border-pebble"
-        style={{ animation: 'slideUp 0.2s ease' }}
+        className="bg-white rounded-[18px] w-full max-w-[640px] overflow-hidden border border-pebble [animation:slideUp_0.2s_ease]"
         onClick={e => e.stopPropagation()}
       >
         <style>{`@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}`}</style>
@@ -35,7 +34,7 @@ export default function CctvModal({ cctv, onClose }: Props) {
         {/* 헤더 */}
         <div className="px-[18px] py-3.5 flex items-center justify-between border-b border-pebble">
           <div>
-            <div className="text-[15px] font-bold text-soil" style={{ fontFamily: "'Gmarket Sans', sans-serif" }}>
+            <div className="text-[15px] font-bold text-soil font-gmarket">
               {cctv.name}
             </div>
             <div className="text-[11px] text-moss mt-0.5">{cctv.location} · 낙동강홍수통제소</div>

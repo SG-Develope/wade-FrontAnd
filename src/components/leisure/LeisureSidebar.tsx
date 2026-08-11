@@ -134,11 +134,10 @@ export default function LeisureSidebar({ places, selectedPlace, getLevel, onSele
 
       {/* 개발 계획 오버레이 */}
       <div
-        className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6"
-        style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(2px)' }}
+        className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 bg-white/75 backdrop-blur-[2px]"
       >
         <div className="w-10 h-10 rounded-full bg-river-light flex items-center justify-center">
-          <i className="ti ti-map-2 text-river" style={{ fontSize: 20 }} />
+          <i className="ti ti-map-2 text-river text-[20px]" />
         </div>
         <div className="text-center">
           <div className="text-[13px] font-bold text-soil mb-1">여가 지도 개발 진행중</div>
@@ -147,7 +146,7 @@ export default function LeisureSidebar({ places, selectedPlace, getLevel, onSele
         <div className="flex flex-col gap-1.5 w-full mt-1">
           {DEV_CHECKLIST.map(item => (
             <div key={item.label} className="flex items-center gap-2 text-[11px]">
-              <i className={`ti ${item.done ? 'ti-circle-check text-river' : 'ti-circle-dashed text-moss opacity-50'}`} style={{ fontSize: 14 }} />
+              <i className={`ti text-[14px] ${item.done ? 'ti-circle-check text-river' : 'ti-circle-dashed text-moss opacity-50'}`} />
               <span className={item.done ? 'text-soil font-semibold' : 'text-moss opacity-60'}>{item.label}</span>
               {item.done && <span className="ml-auto text-[9px] bg-river-light text-river px-1.5 py-0.5 rounded-full font-bold">완료</span>}
             </div>

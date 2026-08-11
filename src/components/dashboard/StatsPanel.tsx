@@ -21,18 +21,13 @@ export default function StatsPanel({ stations }: Props) {
   return (
     <div className="grid grid-cols-2 mt-auto">
       {/* 전체 — 전체 너비 */}
-      <div className="col-span-2 p-[12px] text-center"
-        style={{ borderTop: '0.5px solid #EDE8E0', borderBottom: '0.5px solid #F5F0EA' }}>
+      <div className="col-span-2 p-[12px] text-center border-t-[0.5px] border-t-pebble border-b-[0.5px] border-b-[#F5F0EA]">
         <div className="text-[10px] text-moss mb-[2px]">전체</div>
-        <div className="text-[22px] font-bold leading-none" style={{ color: '#2D3A1F' }}>{total}</div>
-        <div className="text-[10px] mt-[2px]" style={{ color: '#8A9A7A' }}>관측소</div>
+        <div className="text-[22px] font-bold leading-none text-soil">{total}</div>
+        <div className="text-[10px] mt-[2px] text-moss">관측소</div>
       </div>
       {statItems.map((item, i) => (
-        <div key={item.label} className="p-[12px] text-center"
-          style={{
-            borderRight:  i % 2 === 0 ? '0.5px solid #F5F0EA' : 'none',
-            borderBottom: i < 2 ? '0.5px solid #F5F0EA' : 'none',
-          }}>
+        <div key={item.label} className={`p-[12px] text-center ${i % 2 === 0 ? 'border-r-[0.5px] border-r-[#F5F0EA]' : ''} ${i < 2 ? 'border-b-[0.5px] border-b-[#F5F0EA]' : ''}`}>
           <div className="text-[10px] text-moss mb-[2px]">{item.label}</div>
           <div className="text-[22px] font-bold leading-none" style={{ color: item.color }}>{item.value}</div>
           <div className="text-[10px] mt-[2px]" style={{ color: item.subColor }}>{item.sub}</div>

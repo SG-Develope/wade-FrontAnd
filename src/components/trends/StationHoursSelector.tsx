@@ -20,12 +20,11 @@ export default function StationHoursSelector({ selectedStation, hours, onStation
         <button
           key={s.id}
           onClick={() => onStationChange(s.id)}
-          className="flex items-center gap-1 text-[11px] px-3 py-1 rounded-full cursor-pointer border transition-all duration-150"
+          className="flex items-center gap-1 text-[11px] px-3 py-1 rounded-full cursor-pointer border transition-all duration-150 font-medium"
           style={{
             borderColor: selectedStation === s.id ? s.color : '#EDE8E0',
             background:  selectedStation === s.id ? s.color : '#fff',
             color:       selectedStation === s.id ? '#fff' : '#8A9A7A',
-            fontWeight: 500,
           }}
         >
           <span className="w-1.5 h-1.5 rounded-full" style={{ background: selectedStation === s.id ? '#fff' : s.color }} />

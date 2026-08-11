@@ -30,7 +30,7 @@ export default function TubeVisualization({
   const currentTop = TUBE_H - (fillPct / 100) * TUBE_H
 
   return (
-    <div className="flex flex-col items-center gap-1.5" style={{ minWidth: 80 }}>
+    <div className="flex flex-col items-center gap-1.5 min-w-[80px]">
       {label && (
         <span className="text-[11px] text-[#1a1a1a] font-bold text-center leading-tight">{label}</span>
       )}
@@ -39,7 +39,7 @@ export default function TubeVisualization({
       <div className="relative" style={{ width: TUBE_W + 36, height: TUBE_H }}>
 
         {/* 최대 높이 (상단) */}
-        <div className="absolute flex items-center gap-0.5" style={{ top: 0, left: TUBE_W }}>
+        <div className="absolute top-0 flex items-center gap-0.5" style={{ left: TUBE_W }}>
           <div className="w-2 border-t border-dashed border-[#999]" />
           <span className="text-[8px] font-semibold text-[#555] whitespace-nowrap">{maxDisplay.toFixed(1)}m</span>
         </div>

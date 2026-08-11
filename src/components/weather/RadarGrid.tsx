@@ -95,7 +95,7 @@ export function TyphoonPanel() {
           style={{ height: PANEL_HEIGHT }}
         >
           <div className="w-10 h-10 rounded-full bg-[#E1F5EE] flex items-center justify-center">
-            <i className="ti ti-shield-check text-river" style={{ fontSize: 22 }} />
+            <i className="ti ti-shield-check text-river text-[22px]" />
           </div>
           <div className="text-[12px] font-semibold text-soil">현재 발효 중인 태풍 없음</div>
           <div className="text-[10px] text-moss opacity-70">태풍 발생 시 경로·강도 정보가 표시됩니다</div>
