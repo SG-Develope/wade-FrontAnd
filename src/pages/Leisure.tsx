@@ -13,7 +13,7 @@ export default function Leisure() {
   // 선택(캠핑/산책로 상호 배타)
   const [selectedCampingId, setSelectedCampingId] = useState<number | null>(null)
   const [selectedTrailId, setSelectedTrailId] = useState<string | null>(null)
-  const [trailSido, setTrailSido] = useState<string | null>(null)
+  const [trailSido, setTrailSido] = useState<string | null>('경북')
 
   // 데이터
   const { data: campingData, isLoading: campingLoading } = useCampingSites()
@@ -22,7 +22,7 @@ export default function Leisure() {
   const trails = trailData ?? []
 
   const filtered = useMemo(
-    () => (trailSido ? trails.filter(t => t.sido === trailSido) : []),
+    () => (trailSido ? trails.filter(t => t.sido === trailSido) : trails),
     [trails, trailSido],
   )
   // 산책로 레이어가 켜져 있을 때만 경로 로드
@@ -32,8 +32,8 @@ export default function Leisure() {
   )
   const { paths } = useTrailPaths(courseIds)
 
-  const selectedCamping = sites.find(s => s.id === selectedCampingId)
-  const selectedTrail = trails.find(t => t.courseId === selectedTrailId)
+  const selectedCamping = selectedCampingId != null ? sites.find(s => s.id === selectedCampingId) : undefined
+  const selectedTrail = selectedTrailId != null ? trails.find(t => t.courseId === selectedTrailId) : undefined
 
   /* ── 핸들러 ── */
   const selectCamping = (id: number) => { setSelectedCampingId(id); setSelectedTrailId(null) }

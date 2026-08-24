@@ -30,7 +30,7 @@ function campMarkerEl(site: CampingSite, active: boolean, onClick: () => void): 
   const el = document.createElement('div')
   el.style.cssText = 'display:flex;flex-direction:column;align-items:center;cursor:pointer;user-select:none;'
   el.innerHTML = `
-    <div style="background:#fff;border:1.5px solid ${color};border-radius:8px;padding:3px 7px;font-size:10px;font-weight:700;color:#2D3A1F;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 6px rgba(0,0,0,0.18);margin-bottom:3px;text-align:center;">${site.facilityName}</div>
+    <div style="background:#fff;border:1.5px solid ${color};border-radius:8px;padding:3px 7px;font-size:10px;font-weight:700;color:#2D3A1F;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 6px rgba(0,0,0,0.18);margin-bottom:3px;text-align:center;">${site.facilityName ?? '캠핑장'}</div>
     <div style="width:30px;height:30px;border-radius:50%;background:${color};border:2px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.3);">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 20l8-16 8 16H4z"/><path d="M8.5 20l3.5-7 3.5 7"/><line x1="12" y1="15" x2="12" y2="20"/>

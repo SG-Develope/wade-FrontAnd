@@ -128,30 +128,23 @@ export function TrailListView({ trails, filtered, sido, onSido, onSelect }: {
         </div>
       </div>
 
-      {sido == null ? (
-        <div className="px-4 py-6 text-center text-[11px] text-moss">
-          <i className="ti ti-map-search text-[22px] text-moss/40 block mb-1.5" />
-          지역을 선택하면 코스가 지도에 표시됩니다
-        </div>
-      ) : (
-        <div>
-          {filtered.map(trail => (
-            <div key={trail.courseId} onClick={() => onSelect(trail.courseId)}
-              className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#F5F0EA] cursor-pointer hover:bg-sand transition-colors">
-              <div className="w-8 h-8 rounded-lg bg-river-light flex items-center justify-center shrink-0">
-                <i className="ti ti-walk text-river text-[16px]" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-[12px] font-bold text-soil truncate">{trail.name}</div>
-                <div className="text-[10px] text-moss truncate">
-                  {trail.region} · {trail.distanceKm ?? '-'}km · {fmtDuration(trail.durationMin)}
-                </div>
-              </div>
-              <DiffBadge d={trail.difficulty} />
+      <div>
+        {filtered.map(trail => (
+          <div key={trail.courseId} onClick={() => onSelect(trail.courseId)}
+            className="flex items-center gap-2.5 px-4 py-2.5 border-b border-[#F5F0EA] cursor-pointer hover:bg-sand transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-river-light flex items-center justify-center shrink-0">
+              <i className="ti ti-walk text-river text-[16px]" />
             </div>
-          ))}
-        </div>
-      )}
+            <div className="flex-1 min-w-0">
+              <div className="text-[12px] font-bold text-soil truncate">{trail.name}</div>
+              <div className="text-[10px] text-moss truncate">
+                {trail.region} · {trail.distanceKm ?? '-'}km · {fmtDuration(trail.durationMin)}
+              </div>
+            </div>
+            <DiffBadge d={trail.difficulty} />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -82,6 +82,11 @@ export interface CampingSite {
 }
 
 export async function fetchCampingSites(): Promise<CampingSite[]> {
-  const { data } = await apiClient.get<CampingSite[]>('/api/camping-sites')
-  return data
+  const { data } = await apiClient.get<any[]>('/api/camping-sites')
+  return data.map(item => ({
+    ...item,
+    facilityName: item.facilityName ?? item.facility_name ?? null,
+    latitude:     item.latitude     ?? item.lat          ?? null,
+    longitude:    item.longitude    ?? item.lng          ?? item.lon ?? null,
+  }))
 }
