@@ -16,6 +16,15 @@ export const queryKeys = {
     all: ['places'] as const,
     list: () => [...queryKeys.places.all, 'list'] as const,
   },
+  camping: {
+    all: ['camping'] as const,
+    list: () => [...queryKeys.camping.all, 'list'] as const,
+  },
+  trails: {
+    all: ['trails'] as const,
+    list: () => [...queryKeys.trails.all, 'list'] as const,
+    path: (courseId: string) => [...queryKeys.trails.all, 'path', courseId] as const,
+  },
   cctv: {
     all: ['cctv'] as const,
     list: () => [...queryKeys.cctv.all, 'list'] as const,
